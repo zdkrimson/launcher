@@ -3,6 +3,8 @@ import customtkinter
 import os
 import pyngrok
 import json
+import requests
+from subprocess import Popen
 from PIL import Image
 from tkinter import messagebox
 
@@ -24,8 +26,10 @@ authtype=0
 CDDIR=os.getcwd()
 global lastcrack
 global firstime
+global __version__
 lastcrack=""
 firstime=0
+__version__="alpha1"
 print(CDDIR)
 
 if os.path.exists(".zdkrimson")==False:
@@ -77,7 +81,7 @@ def process_exists(process_name):
 def main_win():
 	splash.destroy()
 	app = customtkinter.CTk()
-	app.geometry("700x500")
+	app.geometry("700x600")
 	app.title("zdkrimson : Minecraft Launcher")
 	app.iconbitmap("zdicon.ico")
 #	app.overrideredirect(True)
@@ -133,8 +137,20 @@ def main_win():
 					statusls.configure(text="Your Microsoft account doesn't have a legitmate copy of Minecraft. :(")
 				else:
 					statusls.configure(text="You own Minecraft, you are logged in! :D")
+					user = {
+					    "name": "{}".format(zdemail),
+					    "uuid": "microsoft"
+					}
+					jsonfilezd = json.dumps(user, indent=2)
+					with open(".zdkrimson\\crackedusers\\{}.json".format(zdemail), "w") as outfile:
+	   					outfile.write(jsonfilezd)
+					cadb = open(".zdkrimson\\crackedusers\\crackaccount.txt", "a")
+					print(cadb)
+					cadb.write("{}\n".format(zdemail))
+					cadb.close()
 			elif authtypeop.get()=="Cracked/Offline Mode":
 #				loginprocco=subprocess.call("{}\\portablemc -u {} -u {}".format(CDDIR, zdemail, zduuid))
+				lastcrack=zdemail
 				user = {
 				    "name": "{}".format(zdemail),
 				    "uuid": "{}".format(zduuid)
@@ -214,7 +230,7 @@ def main_win():
 
 		homeset = customtkinter.CTkFrame(master=mainset, fg_color="#630000")
 		homeset.pack(pady=40, padx=40, fill="both", expand=True)
-
+ 
 		userst = customtkinter.CTkLabel(master=homeset, text="\n\n\nUsers")
 		userst.pack(pady=0, padx=0)
 
@@ -223,6 +239,28 @@ def main_win():
 		usersel.set(lastcrack)
 
 		settingswin.mainloop()
+
+	def dlv():
+		dlver=verent.get()
+		print(dlver)
+		print(lastcrack)
+		launchinfo.configure(text="Minecraft Version {}".format(dlver))
+		if not lastcrack=="":
+			print("starting...")
+			lastcrackn=lastcrack.strip()
+			print("portablemc start -u {} {}".format(lastcrackn, dlver))
+			mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, dlver), shell=True)
+			#logs.insert("0.0", mclogss)
+		else:
+			print("oh no microsoft may not work :(")
+
+
+	# REQUEST
+	#verget = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
+	#print(verget)
+	#print(verget.content)
+#-	vergetstr=verget.content
+
 
 #	bar = customtkinter.CTkFrame(master=app, fg_color="black")
 #	bar.pack(pady=0, padx=0, fill="x", expand=False)
@@ -240,7 +278,7 @@ def main_win():
 	main.pack(pady=0, padx=0, fill="both", expand=True)
 
 	home = customtkinter.CTkFrame(master=main, fg_color="#630000")
-	home.pack(pady=100, padx=100, fill="both", expand=True)
+	home.pack(pady=50, padx=100, fill="both", expand=True)
 
 #	bg = customtkinter.CTkLabel(master=app, text="", image=crim1)
 #	bg.pack(pady=0, padx=0)
@@ -257,13 +295,39 @@ def main_win():
 	subshade.pack(pady=0, padx=0)
 #	subshade.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
 
-	login = customtkinter.CTkButton(master=home, text="Login", command=loginscrn)
+	login = customtkinter.CTkButton(master=home, text="Accounts", command=loginscrn)
 	login.pack(padx=20, pady=10)
 #	login.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
 
 	setbtn = customtkinter.CTkButton(master=home, text="Settings", command=settings)
 	setbtn.pack(padx=20, pady=10)
 #	setbtn.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
+
+	verent = customtkinter.CTkEntry(master=home, placeholder_text="Minecraft Version")
+	verent.pack(pady=10, padx=10)
+
+	setbtn = customtkinter.CTkButton(master=home, text="Download & Play", command=dlv)
+	setbtn.pack(padx=20, pady=10)
+
+	launchinfo = customtkinter.CTkLabel(master=home, text="", justify=customtkinter.LEFT)
+	launchinfo.pack(pady=10, padx=10)
+
+	ver = customtkinter.CTkLabel(master=main, text="Launcher Version {}".format(__version__), justify=customtkinter.LEFT)
+	ver.pack(pady=10, padx=10)
+
+#	logs = customtkinter.CTkTextbox(master=home, width=600, height=200)
+#	logs.pack(pady=10, padx=10)
+
+#	logs = customtkinter.CTkTextbox(master=home, width=400, height=200)
+#	logs.pack(pady=10, padx=10)
+#	logs.insert("0.0", "Logs go here but don't work")
+#	logs.configure(state="disabled")
+
+#	versel = customtkinter.CTkOptionMenu(home, values=verlist)
+#	versel.pack(pady=10, padx=10)
+#	versel.set("None Selected :|")
+
+
 
 #	ver = customtkinter.CTkLabel(master=main, text="Version: ", justify=customtkinter.LEFT)
 #	ver.pack(pady=10, padx=10)
