@@ -1,6 +1,7 @@
 import subprocess
 import customtkinter
 import os
+from os import path
 import pyngrok
 import json
 import requests
@@ -22,17 +23,17 @@ print(r"""
                                                          
 		""")
 
+appdata=path.expandvars(r'%APPDATA%')
+print("{}\\.minecraft".format(appdata))
 authtype=0
 CDDIR=os.getcwd()
 global lastcrack
 global firstime
 global __version__
-global instnum
 lastcrack=""
 firstime=0
 __version__="alpha2"
 instances=[]
-instnum=0
 print(CDDIR)
 
 # File/Folder Checking
@@ -47,8 +48,7 @@ if os.path.exists(".zdkrimson\\settings.json")==False:
 	config = {
 	    "lastcrack": "",
 	    "firsttime": 1,
-	    "lastinstance": "",
-	    "instnum": 0
+	    "lastinstance": ""
 	}
 	configjson = json.dumps(config, indent=2)
 	with open(".zdkrimson\\settings.json", "w") as outfile:
@@ -56,7 +56,7 @@ if os.path.exists(".zdkrimson\\settings.json")==False:
 	lastcrack=""
 	firstime=1
 	lastinstance=""
-	instnum=0
+
 if os.path.exists(".zdkrimson\\instances.json")==False:
 	print("instances file(instances.json) doesn't exist, created one just now.")
 	instancesfile = {
@@ -85,13 +85,14 @@ with open('.zdkrimson\\settings.json', 'r') as openfile:
 		lastcrack=configjson['lastcrack']
 		firsttime=configjson['firsttime']
 		lastinstance=configjson['lastinstance']
+		print("imported settings json")
+		print(lastcrack)
 	except KeyError:
 		print("Settings file isn't up-to-date")
 		config = {
 		    "lastcrack": "",
 		    "firsttime": 1,
-		    "lastinstance": "",
-		    "instnum": 0
+		    "lastinstance": ""
 		}
 		configjson = json.dumps(config, indent=2)
 		with open(".zdkrimson\\settings.json", "w") as outfile:
@@ -99,7 +100,6 @@ with open('.zdkrimson\\settings.json', 'r') as openfile:
 		lastcrack=""
 		firstime=1
 		lastinstance=""
-		instnum=0
 
 with open('.zdkrimson\\instances.json', 'r') as openfile:
 	instjson = json.load(openfile)
@@ -261,7 +261,8 @@ def main_win():
 			print(lastcrack)
 			config = {
 			    "lastcrack": "{}".format(value),
-			    "firsttime": firstime
+			    "firsttime": "{}".format(firsttime),
+			    "lastinstance": "{}".format(firsttime)
 			}
 			configjson = json.dumps(config, indent=2)
 			with open(".zdkrimson\\settings.json", "w") as outfile:
@@ -310,14 +311,12 @@ def main_win():
 					print("starting...")
 					lastcrackn=lastcrack.strip()
 					print("portablemc start -u {} {}".format(lastcrackn, dlver))
-					instnum+=1
 					mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, dlver), shell=True)
-					#logs.insert("0.0", mclogss)
+					
 				else:
 					print("oh no microsoft no work yet :(")
 					lastcrackn=lastcrack.strip()
 					print("portablemc start -u {} {}".format(lastcrackn, dlver))
-					instnum+=1
 					mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, dlver), shell=True)
 
 			installwin = customtkinter.CTk()
@@ -338,10 +337,20 @@ def main_win():
 
 			installwin.mainloop()
 
-		def openi0():
+		def lmc():
+			lmcver=verins.get()
 			lastcrackn=lastcrack.strip()
-			print("portablemc start -u {} {}".format(lastcrackn, inst0))
-			mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, inst0), shell=True)
+			print(lmcver)
+			print(lastcrack)
+			print(lastcrackn)
+			if lmcver=="Select Version":
+				statusins.configure(text="Pick a Minecraft Version!!!")
+			else:
+				print("starting...")
+				print("portablemc start -u {} {}".format(lastcrackn, lmcver))
+				mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, lmcver), shell=True)	
+
+		mcversions=os.listdir("{}\\.minecraft\\versions".format(appdata))		
 
 		instancewin = customtkinter.CTk()
 		instancewin.geometry("400x500")
@@ -353,7 +362,7 @@ def main_win():
 		homeins = customtkinter.CTkFrame(master=mainins, fg_color="#630000")
 		homeins.pack(pady=40, padx=40, fill="both", expand=True)
 
-		if inst0=="" and inst1=="" and inst2=="" and inst3=="" and inst4=="" and inst5=="" and inst6=="" and inst7=="" and inst8=="" and inst9=="":
+		if os.path.exists("{}\\.minecraft".format(appdata))==False or mcversions==[]:
 			statusins = customtkinter.CTkLabel(master=homeins, text="No Instances Found, Work in Progress")
 			statusins.pack(pady=30, padx=0)
 
@@ -361,45 +370,13 @@ def main_win():
 			getmc.pack(padx=20, pady=10)
 
 		else:
-			if not inst0=="":
-				inst0btn = customtkinter.CTkButton(master=homeins, text="Instance 0", command=openi0)
-				inst0btn.pack(padx=20, pady=10)
+			print(mcversions)
+			verins = customtkinter.CTkOptionMenu(homeins, values=mcversions)
+			verins.pack(pady=10, padx=10)
+			verins.set("Select Version")
 
-			if not inst1=="":
-				inst1btn = customtkinter.CTkButton(master=homeins, text="Instance 1", command=openi1)
-				inst1btn.pack(padx=20, pady=10)
-
-			if not inst2=="":
-				inst2btn = customtkinter.CTkButton(master=homeins, text="Instance 2", command=openi2)
-				inst2btn.pack(padx=20, pady=10)
-
-			if not inst3=="":
-				inst3btn = customtkinter.CTkButton(master=homeins, text="Instance 3", command=openi3)
-				inst3btn.pack(padx=20, pady=10)
-
-			if not inst4=="":
-				inst4btn = customtkinter.CTkButton(master=homeins, text="Instance 4", command=openi4)
-				inst4btn.pack(padx=20, pady=10)
-
-			if not inst5=="":
-				inst5btn = customtkinter.CTkButton(master=homeins, text="Instance 5", command=openi5)
-				inst5btn.pack(padx=20, pady=10)
-
-			if not inst6=="":
-				inst6btn = customtkinter.CTkButton(master=homeins, text="Instance 6", command=openi6)
-				inst6btn.pack(padx=20, pady=10)
-
-			if not inst7=="":
-				inst7btn = customtkinter.CTkButton(master=homeins, text="Instance 7", command=openi7)
-				inst7btn.pack(padx=20, pady=10)
-
-			if not inst8=="":
-				inst8btn = customtkinter.CTkButton(master=homeins, text="Instance 8", command=openi8)
-				inst8btn.pack(padx=20, pady=10)
-
-			if not inst9=="":
-				inst9btn = customtkinter.CTkButton(master=homeins, text="Instance 9", command=openi9)
-				inst9btn.pack(padx=20, pady=10)
+			launchbtn = customtkinter.CTkButton(master=homeins, text="Launch", command=lmc)
+			launchbtn.pack(padx=20, pady=10)
 
 			getmc = customtkinter.CTkButton(master=mainins, text="Get Minecraft", command=installinstances)
 			getmc.pack(padx=20, pady=10)
@@ -428,11 +405,11 @@ def main_win():
 	main = customtkinter.CTkFrame(master=app, fg_color="#3D0A11")
 	main.pack(pady=0, padx=0, fill="both", expand=True)
 
-	bg = customtkinter.CTkLabel(master=main, text="", image=crim1)
-	bg.pack(pady=0, padx=0, fill="both")
-	bg.place(x=0, y=0, relwidth=1, relheight=1)
+#	bg = customtkinter.CTkLabel(master=app, text="", image=crim1)
+#	bg.pack(pady=0, padx=0)
+#	bg.place(x=0, y=0, relwidth=1, relheight=1)
 
-	home = customtkinter.CTkFrame(master=main, fg_color="transparent")
+	home = customtkinter.CTkFrame(master=main, fg_color="#630000")
 	home.pack(pady=50, padx=100, fill="both", expand=True)
 
 	logoshade = customtkinter.CTkLabel(master=home, text="", image=whitelogoshaded)
