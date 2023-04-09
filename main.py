@@ -8,6 +8,7 @@ import requests
 from subprocess import Popen
 from PIL import Image
 from tkinter import messagebox
+os.system("pip install -r requirements.txt")
 
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("krimson.json")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -19,7 +20,7 @@ print(r"""
 |_  / / _` || |/ /| '__|| || '_ ` _ \ / __| / _ \ | '_ \ 
  / / | (_| ||   < | |   | || | | | | |\__ \| (_) || | | |
 /___| \__,_||_|\_\|_|   |_||_| |_| |_||___/ \___/ |_| |_|
-                                 	Written by ItsIceCreeperPE Dev                       
+                                 	Written by ItsIceCreeperPE Dev & Artsign                  
                                                          
 		""")
 
