@@ -9,3 +9,6 @@ Minecraft now launches but microsoft login doesn't work for gameplay
 
 Alpha 2 - 09/04/2023 00:45
 Made a dropdown where you could select downloaded minecraft versions
+
+Alpha 3 - 09/04/2023 07:?? - Artsign
+Added an automation to install the requirements, instead of manually having to do it! 
