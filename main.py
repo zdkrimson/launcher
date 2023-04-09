@@ -227,6 +227,7 @@ def main_win():
 		logscrnwin = customtkinter.CTk()
 		logscrnwin.geometry("400x500")
 		logscrnwin.title("zdkrimson : Minecraft Launcher - Login")
+		logscrnwin.iconbitmap("zdicon.ico")
 
 		mainls = customtkinter.CTkFrame(master=logscrnwin, fg_color="#3D0A11")
 		mainls.pack(pady=0, padx=0, fill="both", expand=True)
