@@ -1,17 +1,65 @@
 import subprocess
 import customtkinter
 import os
+from threading import Timer
 from os import path
 import pyngrok
 import json
 import requests
+import shutil
+import schedule
+import errno
 from subprocess import Popen
 from PIL import Image
 from tkinter import messagebox
-os.system("pip install -r requirements.txt")
 
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("krimson.json")  # Themes: "blue" (standard), "green", "dark-blue"
+
+# check if portablemc module is installed, if not install it
+try:
+	import portablemc
+except ModuleNotFoundError as e:
+	def dlmodule(): 
+		def checkmodule():
+			try:
+				import portablemc
+				print("works!")
+				messagebox.showinfo("Module Installed", "The 'portablemc' Module has successfully been installed!!!\nzdkrimson will now launch.\nIf Minecraft doesn't launch try 'pip freeze' in your terminal and look for 'portablemc' in the list of installed Python modules, if it isn't then try 'pip install portablemc' in your terminal.\nzdkrimson will now close so you may reopen it if you'd like.")
+				nomod.destroy()
+			except ModuleNotFoundError as e:
+				print("Retrying in 3 seconds...")
+				Timer(3, checkmodule).start()
+		subprocess.Popen("pip install portablemc")
+		nmtitle.configure(text="\n\nInstalling...")
+		nmmsg.configure(text="\n\n'portablemc' Module is being installed...\nPlease Wait")
+		nmbtn.pack_forget()
+		checkmodule()
+
+	nomod = customtkinter.CTk()
+	nomod.geometry("700x600")
+	nomod.title("zdkrimson : Minecraft Launcher - Required Module not Installed!")
+	nomod.iconbitmap("zdicon.ico")
+	mainframen = customtkinter.CTkFrame(master=nomod, fg_color="#3D0A11")
+	mainframen.pack(pady=0, padx=0, fill="both", expand=True)
+
+	nmtitle = customtkinter.CTkLabel(master=mainframen, text="\n\nOh No!")
+	nmtitle.pack(pady=0, padx=0)
+
+	nmframe = customtkinter.CTkFrame(master=mainframen, fg_color="#630000")
+	nmframe.pack(pady=20, padx=40, fill="both", expand=True)
+ 
+	nmmsg = customtkinter.CTkLabel(master=nmframe, text="\n\nThe 'portablemc' Module has not been found\non your system!")
+	nmmsg.pack(pady=0, padx=0)
+
+	nmbtn = customtkinter.CTkButton(master=nmframe, text="Install Module (Requires Python Installed!)", command=dlmodule)
+	nmbtn.pack(padx=20, pady=10)
+
+	nomod.mainloop()
+
+	
+
+
 
 print(r"""
 	      _  _           _                               
@@ -33,7 +81,7 @@ global firstime
 global __version__
 lastcrack=""
 firstime=0
-__version__="alpha2"
+__version__="alpha4"
 instances=[]
 print(CDDIR)
 
@@ -41,9 +89,11 @@ print(CDDIR)
 if os.path.exists(".zdkrimson")==False:
 	print(".zdkrimson folder doesn't exist, created one just now.")
 	os.mkdir(".zdkrimson")
+
 if os.path.exists(".zdkrimson\\crackedusers")==False:
 	print("crackedusers folder doesn't exist, created one just now.")
 	os.mkdir("{}\\.zdkrimson\\crackedusers".format(CDDIR))
+
 if os.path.exists(".zdkrimson\\settings.json")==False:
 	print("settings file(settings.json) doesn't exist, created one just now.")
 	config = {
@@ -54,27 +104,13 @@ if os.path.exists(".zdkrimson\\settings.json")==False:
 	configjson = json.dumps(config, indent=2)
 	with open(".zdkrimson\\settings.json", "w") as outfile:
 	    outfile.write(configjson)
-	lastcrack=""
+	lastcrack=""													
 	firstime=1
 	lastinstance=""
 
-if os.path.exists(".zdkrimson\\instances.json")==False:
-	print("instances file(instances.json) doesn't exist, created one just now.")
-	instancesfile = {
-	    "instance0": "",
-	    "instance1": "",
-	    "instance2": "",
-	    "instance3": "",
-	    "instance4": "",
-	    "instance5": "",
-	    "instance6": "",
-	    "instance7": "",
-	    "instance8": "",
-	    "instance9": "",
-	}
-	instjson = json.dumps(instancesfile, indent=2)
-	with open(".zdkrimson\\instances.json", "w") as outfile:
-	    outfile.write(instjson)
+if os.path.exists(".zdkrimson\\instances")==False:
+	print("instances folder doesn't exist, created one just now.")
+	os.mkdir(".zdkrimson\\instances")
 
 # loading json files
 with open('.zdkrimson\\settings.json', 'r') as openfile:
@@ -101,31 +137,6 @@ with open('.zdkrimson\\settings.json', 'r') as openfile:
 		lastcrack=""
 		firstime=1
 		lastinstance=""
-
-with open('.zdkrimson\\instances.json', 'r') as openfile:
-	instjson = json.load(openfile)
-	print(instjson['instance0'])
-	print(instjson['instance1'])
-	print(instjson['instance2'])
-	print(instjson['instance3'])
-	print(instjson['instance4']) 
-	print(instjson['instance5'])
-	print(instjson['instance6'])
-	print(instjson['instance7'])
-	print(instjson['instance8'])
-	print(instjson['instance9']) 
-	inst0=instjson['instance0']
-	inst1=instjson['instance1']
-	inst2=instjson['instance2'] 
-	inst3=instjson['instance3']
-	inst4=instjson['instance4']
-	inst5=instjson['instance5'] 
-	inst6=instjson['instance6']
-	inst7=instjson['instance7']
-	inst8=instjson['instance8'] 
-	inst9=instjson['instance9'] 
-	instancelist=json.dumps(instjson)
-	print(instancelist)
 
 splash = customtkinter.CTk()
 splash.title("zdkrimson : Minecraft Launcher - Starting")
@@ -312,12 +323,20 @@ def main_win():
 					print("starting...")
 					lastcrackn=lastcrack.strip()
 					print("portablemc start -u {} {}".format(lastcrackn, dlver))
+					os.mkdir(".zdkrimson\\instances\\{}".format(dlver))
+					os.mkdir(".zdkrimson\\instances\\{}\\saves".format(dlver))
+#					if dlver=="1.6.1":
+#						os.mkdir(".zdkrimson\\instances\\resourcepacks")
+					os.mkdir(".zdkrimson\\instances\\{}\\resourcepacks")
 					mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, dlver), shell=True)
 					
 				else:
 					print("oh no microsoft no work yet :(")
 					lastcrackn=lastcrack.strip()
 					print("portablemc start -u {} {}".format(lastcrackn, dlver))
+					os.mkdir(".zdkrimson\\instances\\{}".format(dlver))
+					os.mkdir(".zdkrimson\\instances\\{}\\saves".format(dlver))
+					os.mkdir(".zdkrimson\\instances\\{}\\resourcepacks")
 					mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, dlver), shell=True)
 
 			installwin = customtkinter.CTk()
@@ -329,6 +348,9 @@ def main_win():
 
 			homeinsl = customtkinter.CTkFrame(master=maininsl, fg_color="#630000")
 			homeinsl.pack(pady=20, padx=20, fill="both", expand=True)
+
+			innaent = customtkinter.CTkEntry(master=homeinsl, placeholder_text="Instance Name")
+			innaent.pack(pady=10, padx=10)
 
 			verent = customtkinter.CTkEntry(master=homeinsl, placeholder_text="Minecraft Version")
 			verent.pack(pady=10, padx=10)
@@ -348,6 +370,10 @@ def main_win():
 				statusins.configure(text="Pick a Minecraft Version!!!")
 			else:
 				print("starting...")
+#				os.rmdir("{}\\.minecraft\\resourcepacks".format(appdata))
+#				os.rmdir("{}\\.minecraft\\saves".format(appdata))
+#				shutil.copytree(".zdkrimson\\instances\\{}\\resourcepacks".format(lmcver), "{}\\.minecraft".format(appdata))
+#				shutil.copytree(".zdkrimson\\instances\\{}\\saves".format(lmcver), "{}\\.minecraft".format(appdata))
 				print("portablemc start -u {} {}".format(lastcrackn, lmcver))
 				mclogss = subprocess.Popen("portablemc start -u {} {}".format(lastcrackn, lmcver), shell=True)	
 
@@ -476,6 +502,6 @@ def main_win():
 
 	app.mainloop()
 
-splash.after(3000, main_win)
+splash.after(0, main_win)
 
 splash.mainloop()
