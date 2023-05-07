@@ -1,5 +1,5 @@
 Prototype 1 - 04/04/2023 ??:??
-First version, looked quite bad to be honest and had no function
+First version, looked quite bad to be honest and had no function.
 
 Prototype 2 - 08/04/2023 ??:??
 UI Overhaul, added accounts and microsoft login works
