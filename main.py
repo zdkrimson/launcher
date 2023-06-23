@@ -1,5 +1,6 @@
 import subprocess
 import customtkinter
+from nicegui import ui
 import os
 from threading import Timer
 from os import path
