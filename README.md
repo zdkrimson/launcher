@@ -37,5 +37,6 @@ Not at moment but currently working on it!
 - Mod Downloading from Forge/Fabric/Quilt straight in launcher - Coming Soon
 - Multi-Instances - Coming Soon
 - Cross platform - Hopefully Coming Soon
-- Possibly Adding A Server Creator - Stay Tuned!
-- 
+- Host your OWN Minecraft Server without COST! - Coming Soon
+- Cross-Server Chat - Coming Soon
+- Built-In Voice Chat [3rd Party Service] - Coming Soon
