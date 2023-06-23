@@ -13,8 +13,11 @@ from subprocess import Popen
 from PIL import Image
 from tkinter import messagebox
 
+# Themes
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("krimson.json")  # Themes: "blue" (standard), "green", "dark-blue"
+ui.query('body').style('background-color: #630000')
+ui.colors(primary='#bf3a3a')
 
 # check if portablemc module is installed, if not install it
 try:
@@ -36,6 +39,8 @@ except ModuleNotFoundError as e:
 		nmbtn.pack_forget()
 		checkmodule()
 
+	print("Missing Module! 'portablemc' Module is missing!")
+	
 	nomod = customtkinter.CTk()
 	nomod.geometry("700x600")
 	nomod.title("zdkrimson : Minecraft Launcher - Required Module not Installed!")
@@ -81,9 +86,15 @@ global firstime
 global __version__
 lastcrack=""
 firstime=0
-__version__="alpha4"
+__version__="alpha5"
 instances=[]
 print(CDDIR)
+global zdusername
+global zdemail
+global zduuid
+zdusername=""
+zdemail=""
+zduuid=""
 
 # File/Folder Checking
 if os.path.exists(".zdkrimson")==False:
@@ -149,19 +160,15 @@ splashScreen = customtkinter.CTkImage(dark_image=Image.open("assets/splashScreen
 splashimg = customtkinter.CTkLabel(master=splash, text="", image=splashScreen, justify=customtkinter.LEFT)
 splashimg.pack(side=customtkinter.LEFT, pady=0, padx=0)
 
+@ui.page('/home')
 def main_win():
 	splash.destroy()
-	app = customtkinter.CTk()
-	app.geometry("700x600")
-	app.title("zdkrimson : Minecraft Launcher")
-	app.iconbitmap("zdicon.ico")
-#	app.overrideredirect(True)
 
 	# image loading
-	crim1 = customtkinter.CTkImage(dark_image=Image.open("assets/bg/blur/crim1.png"), size=(700, 500))
-	whitelogoshaded = customtkinter.CTkImage(dark_image=Image.open("assets/logo/image/shaded/white.png"), size=(100, 100))
-	whitetextshaded = customtkinter.CTkImage(dark_image=Image.open("assets/logo/full/white.png"), size=(200, 45))
-	amlshaded = customtkinter.CTkImage(dark_image=Image.open("assets/logo/sub/shaded/white.png"), size=(200, 25))
+	crim1 = "assets/bg/blur/crim1.png"
+	whitelogoshaded = "assets/logo/image/shaded/white.png"
+	whitetextshaded = "assets/logo/full/white.png"
+	amlshaded = "assets/logo/sub/shaded/white.png"
 
 	def move_app(e):
 		app.geometry(f'+{e.x_root}+{e.y_root}')
@@ -177,6 +184,7 @@ def main_win():
 	def play():
 		print("text")
 
+	@ui.page('/login')
 	def loginscrn():
 		def selectedauth(value):
 			if value=="Microsoft":
@@ -196,18 +204,28 @@ def main_win():
 				logls.pack(padx=20, pady=0)
 
 		def login():
-			zdemail=usermaills.get()
-			zduuid=uuidls.get()
-			print(authtype)
-			print(authtypeop.get())
-			if (authtypeop.get())=="Microsoft":
-				messagebox.showinfo("Note", "The Application will stop responding until the authentication as been completed.\nThe Authentication page should open in your default browser.\nClick OK to continue the authentication process.")
+			zdusername=userls
+			zdemail=maills
+			zduuid=uuidls
+			zdoption=authtypeop
+			print(zdusername)
+			print(zdemail)
+			print(zduuid)
+			print(zdoption)
+#			print(authtype)
+#			print(authtypeop)
+			if zdoption=="Microsoft":
+				with ui.dialog() as dialog, ui.card():
+				    ui.markdown('**Notice!**')
+				    ui.label("The Application will stop responding until the authentication as been completed.\nThe Authentication page should open in your default browser.\nClick 'OK' to continue the authentication process.\nClick 'Escape' on your keyboard to cancel.")
+				    ui.button('OK', on_click=dialog.close)
+				dialog.open()
 				loginprocms=subprocess.call("{}\\portablemc login -m {}".format(CDDIR, zdemail))
 				print(loginprocms)
 				if loginprocms==14:
-					statusls.configure(text="Your Microsoft account doesn't have a legitmate copy of Minecraft. :(")
+					ui.notify("Your Microsoft account doesn't have a legitmate copy of Minecraft.", closeBtn="OK")
 				else:
-					statusls.configure(text="You own Minecraft, you are logged in! :D")
+					ui.notify("You own Minecraft, you are logged in!", closeBtn="OK")
 					user = {
 					    "name": "{}".format(zdemail),
 					    "uuid": "microsoft"
@@ -219,53 +237,47 @@ def main_win():
 					print(cadb)
 					cadb.write("{}\n".format(zdemail))
 					cadb.close()
-			elif authtypeop.get()=="Cracked/Offline Mode":
+			elif zdoption=="Cracked/Offline Mode":
 #				loginprocco=subprocess.call("{}\\portablemc -u {} -u {}".format(CDDIR, zdemail, zduuid))
-				lastcrack=zdemail
+				lastcrack=zdusername
 				user = {
-				    "name": "{}".format(zdemail),
+				    "name": "{}".format(zdusername),
 				    "uuid": "{}".format(zduuid)
 				}
 				jsonfilezd = json.dumps(user, indent=2)
-				with open(".zdkrimson\\crackedusers\\{}.json".format(zdemail), "w") as outfile:
+				with open(".zdkrimson\\crackedusers\\{}.json".format(zdusername), "w") as outfile:
    					outfile.write(jsonfilezd)
-				statusls.configure(text="You are logged in as {} as a Cracked/Offline Mode Player.".format(zdemail))
+				ui.notify("You are logged in as {} as a Cracked/Offline Mode Player.".format(zdusername), closeBtn="OK")
 				cadb = open(".zdkrimson\\crackedusers\\crackaccount.txt", "a")
 				print(cadb)
-				cadb.write("{}\n".format(zdemail))
+				cadb.write("{}\n".format(zdusername))
 				cadb.close()
 
-		logscrnwin = customtkinter.CTk()
-		logscrnwin.geometry("400x500")
-		logscrnwin.title("zdkrimson : Minecraft Launcher - Login")
+		ui.query('body').style('background-color: #630000')
+		ui.colors(primary='#bf3a3a')
 
-		mainls = customtkinter.CTkFrame(master=logscrnwin, fg_color="#3D0A11")
-		mainls.pack(pady=0, padx=0, fill="both", expand=True)
+#		logscrnwin = customtkinter.CTk()
+#		logscrnwin.geometry("400x500")
+#		logscrnwin.title("zdkrimson : Minecraft Launcher - Login")
 
-		lstitle = customtkinter.CTkLabel(master=mainls, text="\n\nLogin")
-		lstitle.pack(pady=0, padx=0)
+		ui.markdown('\n\n**Login**\n')
 
-		logframls = customtkinter.CTkFrame(master=mainls, fg_color="#630000")
-		logframls.pack(pady=30, padx=30, fill="both", expand=True)
+#		authtypeop = customtkinter.CTkOptionMenu(logframls, values=["Microsoft", "Cracked/Offline Mode"], command=selectedauth)
+#		authtypeop.pack(pady=10, padx=10)
+#		authtypeop.set("None Selected :|")
 
-		authtypeop = customtkinter.CTkOptionMenu(logframls, values=["Microsoft", "Cracked/Offline Mode"], command=selectedauth)
-		authtypeop.pack(pady=10, padx=10)
-		authtypeop.set("None Selected :|")
+		authtypeop = ui.select({1: 'Microsoft', 2: 'Cracked/Offline Mode'})
 
-		usermaills = customtkinter.CTkEntry(master=logframls, placeholder_text="Username/E-Mail")
-		usermaills.pack(pady=10, padx=10)
+		userls = ui.input(label='Username', placeholder='Enter in a Username',
+    		    validation={'Username Longer than Minecraft Supports, May cause problems!': lambda value: len(value) < 16})
 
-		uuidls = customtkinter.CTkEntry(master=logframls, placeholder_text="UUID (Optional)")
-		uuidls.pack_forget()
+		maills = ui.input(label='E-Mail', placeholder='Enter your E-Mail, it must own a legitmate copy of Minecraft')
 
-		logls = customtkinter.CTkButton(master=logframls, text="Login", command=login)
-		logls.pack(padx=20, pady=10)
+		uuidls = ui.input(label='UUID (Optional)', placeholder='Player UUID')
 
-		statusls = customtkinter.CTkLabel(master=logframls, text="")
-		statusls.pack(pady=0, padx=0)
+		ui.button('Login', on_click=login)
 
-		logscrnwin.mainloop()
-
+	@ui.page('/settings')
 	def settings():
 		def userchange(value):
 			print(value)
@@ -290,27 +302,16 @@ def main_win():
 			print(configjson['lastcrack'])
 			lastcrack=configjson['lastcrack']
 			
-		settingswin = customtkinter.CTk()
-		settingswin.geometry("400x500")
-		settingswin.title("zdkrimson : Minecraft Launcher - Settings")
-		
-		mainset = customtkinter.CTkFrame(master=settingswin, fg_color="#3D0A11")
-		mainset.pack(pady=0, padx=0, fill="both", expand=True)
+#		settingswin = customtkinter.CTk()
+#		settingswin.geometry("400x500")
+#		settingswin.title("zdkrimson : Minecraft Launcher - Settings")
 
-		settitle = customtkinter.CTkLabel(master=mainset, text="\n\n\nSettings")
-		settitle.pack(pady=0, padx=0)
+		ui.markdown('\n\nSettings\n')
 
-		homeset = customtkinter.CTkFrame(master=mainset, fg_color="#630000")
-		homeset.pack(pady=40, padx=40, fill="both", expand=True)
- 
-		userst = customtkinter.CTkLabel(master=homeset, text="\n\n\nUsers")
-		userst.pack(pady=0, padx=0)
+		ui.label('\nUsers\n')
 
-		usersel = customtkinter.CTkOptionMenu(homeset, values=rcadb, command=userchange)
-		usersel.pack(pady=10, padx=10)
-		usersel.set(lastcrack)
-
-		settingswin.mainloop()
+		ui.select(options=rcadb, with_input=True,
+			on_change=lambda e: ui.notify("You Selected '{}'".format(e))).classes('w-40')
 
 	def openinstances():
 		def installinstances():
@@ -410,98 +411,36 @@ def main_win():
 
 		instancewin.mainloop()
 
-	# REQUEST
+	# REQUEST FOR MINECRAFT VERSIONS
 	#verget = requests.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
 	#print(verget)
 	#print(verget.content)
 #-	vergetstr=verget.content
 
+#	ui.avatar(whitelogoshaded)
 
-#	bar = customtkinter.CTkFrame(master=app, fg_color="black")
-#	bar.pack(pady=0, padx=0, fill="x", expand=False)
+#	ui.avatar(whitetextshaded)
 
-#	title = customtkinter.CTkLabel(master=bar, text="zdkrimson : Minecraft Launcher", justify=customtkinter.LEFT)
-#	title.pack(side=customtkinter.LEFT, pady=10, padx=10)
+#	ui.avatar(amlshaded)
 
-#	close = customtkinter.CTkButton(master=bar, fg_color="black", hover_color="red", text="X", command=quit)
-#	close.pack(side=customtkinter.RIGHT, pady=10, padx=10)
+#	ui.query('body').style('background-image: url(file://{}/assets/bg/blur/crim1.png)'.format(CDDIR))
 
-#	bar.bind("<B1-Motion>", move_app)
-#	title.bind("<B1-Motion>", move_app)
+	ui.image(whitelogoshaded)
 
-	main = customtkinter.CTkFrame(master=app, fg_color="#3D0A11")
-	main.pack(pady=0, padx=0, fill="both", expand=True)
+	ui.button('Accounts', on_click=loginscrn)
 
-#	bg = customtkinter.CTkLabel(master=app, text="", image=crim1)
-#	bg.pack(pady=0, padx=0)
-#	bg.place(x=0, y=0, relwidth=1, relheight=1)
+	ui.link('temp account btn', '/login')
 
-	home = customtkinter.CTkFrame(master=main, fg_color="#630000")
-	home.pack(pady=50, padx=100, fill="both", expand=True)
+	ui.button('Settings', on_click=settings)
 
-	logoshade = customtkinter.CTkLabel(master=home, text="", image=whitelogoshaded)
-	logoshade.pack(pady=0, padx=0)
-#	logoshade.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
+	ui.link('temp settings btn', '/settings')
 
-	textshade = customtkinter.CTkLabel(master=home, text="", image=whitetextshaded)
-	textshade.pack(pady=0, padx=0)
-#	textshade.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
+	ui.button('Instances', on_click=openinstances)
 
-	subshade = customtkinter.CTkLabel(master=home, text="", image=amlshaded)
-	subshade.pack(pady=0, padx=0)
-#	subshade.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
+	ui.label('Launcher Version: {}'.format(__version__))
 
-	login = customtkinter.CTkButton(master=home, text="Accounts", command=loginscrn)
-	login.pack(padx=20, pady=10)
-#	login.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
+	ui.run(native=True, reload=False, title="zdkrimson : Minecraft Launcher", window_size=(700, 600), dark=True)
 
-	setbtn = customtkinter.CTkButton(master=home, text="Settings", command=settings)
-	setbtn.pack(padx=20, pady=10)
-#	setbtn.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
-
-	openins= customtkinter.CTkButton(master=home, text="Instances", command=openinstances)
-	openins.pack(padx=20, pady=10)
-
-	launchinfo = customtkinter.CTkLabel(master=home, text="", justify=customtkinter.LEFT)
-	launchinfo.pack(pady=10, padx=10)
-
-	ver = customtkinter.CTkLabel(master=main, text="Launcher Version: {}".format(__version__), justify=customtkinter.LEFT)
-	ver.pack(pady=10, padx=10)
-
-#	logs = customtkinter.CTkTextbox(master=home, width=600, height=200)
-#	logs.pack(pady=10, padx=10)
-
-#	logs = customtkinter.CTkTextbox(master=home, width=400, height=200)
-#	logs.pack(pady=10, padx=10)
-#	logs.insert("0.0", "Logs go here but don't work")
-#	logs.configure(state="disabled")
-
-#	versel = customtkinter.CTkOptionMenu(home, values=verlist)
-#	versel.pack(pady=10, padx=10)
-#	versel.set("None Selected :|")
-
-
-
-#	ver = customtkinter.CTkLabel(master=main, text="Version: ", justify=customtkinter.LEFT)
-#	ver.pack(pady=10, padx=10)
-
-#	version = customtkinter.CTkEntry(master=main, placeholder_text="1.8.9")
-#	version.pack(pady=10, padx=10)
-
-#	java = customtkinter.CTkEntry(master=main, placeholder_text="Java Installation Directory")
-#	java.pack(pady=10, padx=10)
-
-#	path = customtkinter.CTkEntry(master=main, placeholder_text="Minecraft Download Path")
-#	path.pack(pady=10, padx=10)
-
-#	dlb = customtkinter.CTkButton(master=main, text="Download", command=download)
-#	dlb.pack(pady=10, padx=10)
-
-#	play = customtkinter.CTkButton(master=main, text="Play", command=play)
-#	play.pack(pady=10, padx=10)
-
-	app.mainloop()
-
-splash.after(0, main_win)
+splash.after(3000, main_win)
 
 splash.mainloop()
