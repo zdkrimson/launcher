@@ -21,7 +21,7 @@ Nope! Not at all! Should be 100% safe, you may check the code yourself and even 
 
 #### Does it have Cracked/Offline Mode?
 
-Yes it does, but please purshace a Minecraft account if possiable. :)
+Yes it does, but please purshace a Minecraft account if possible. :)
 
 #### Can I install mods?
 
