@@ -155,3 +155,11 @@ button:active {
   justify-content: center;
   align-items: center;
 } 
+
+.username {
+	position: fixed;
+	bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
