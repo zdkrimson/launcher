@@ -1,0 +1,157 @@
+body {
+	background-image: url("assets/bg/blur/crim1.png");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'LEMONMILK';
+  src: url('assets/fonts/lemonmilk/LEMONMILK-Regular.otf');
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter';
+  color: white;
+  margin: 2px;
+ }
+
+.logotitle {
+	font-family: 'lemonmilk';
+	font-size: 27px;
+}
+
+.logocenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0px;
+  text-shadow: 0px 0px 5px #000000;
+}
+
+.homescrn {
+  position: fixed;
+  width: 400px;
+  height: 320px;
+  padding: 0px;
+  margin: auto;
+  inset: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-shadow: 0px 0px 5px #000000;
+  backdrop-filter: brightness(70%);
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px #00000055;
+}
+
+.homeactions {
+	margin-top: 15px;
+	display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-shadow: 0px 0px 5px #000000;
+  gap: 10px;
+}
+
+/*button {
+	color: white;
+	background-color: #7d0a0a;
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: solid;
+	border-color: #960c0c;
+	border-radius: 5px;
+}*/
+
+button {
+  background-color: #7a1010;
+  border: 0px solid #450909;
+  border-radius: 5px;
+  color: white;
+  font-family: inter;
+  padding: 10px 26px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  box-shadow: 0px 0px 7px #000000;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #8c1212;
+  font-size: 17px;
+}
+
+button:active {
+  background-color: #590b0b;
+}
+
+.currentinstance {
+	font-size: 10px;
+	position: fixed;
+	bottom: 12px;
+}
+
+.helpbtn {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	margin: 10px;
+	background-color: #00000000;
+	width: 50px;
+	height: 50px;
+	padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 7px #00000000;
+}
+
+.helpbtn:hover {
+	background-color: #00000050;
+	box-shadow: 0px 0px 7px #00000020;
+	scale: 1.05;
+}
+
+.settingsbtn {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	margin: 10px;
+	background-color: #00000000;
+	width: 50px;
+	height: 50px;
+	padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 7px #00000000;
+}
+
+.settingsbtn:hover {
+	background-color: #00000050;
+	box-shadow: 0px 0px 7px #00000020;
+	scale: 1.05;
+}
+
+/* i'll center it later */
+.love {
+	position: fixed;
+	bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
