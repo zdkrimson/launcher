@@ -1,5 +1,5 @@
 body {
-  background-color: darkred;
+  /*background-color: darkred;*/
   overflow-x: hidden;
   overflow-y: auto;
   padding-top: 40px;
@@ -28,16 +28,16 @@ body::-webkit-scrollbar-button {
 
 @font-face {
   font-family: 'Inter';
-  src: url('../../assets/fonts/inter/Inter-Regular.ttf');
+  src: url('assets/fonts/inter/Inter-Regular.ttf');
 }
 
 @font-face {
   font-family: 'InterThin';
-  src: url('../../assets/fonts/inter/Inter-Thin.ttf');
+  src: url('assets/fonts/inter/Inter-Thin.ttf');
 }
 
 p, h1, h2, h3, h4, h5, h6, div {
-	font-family: inter;
+	font-family: 'Inter';
 	color: white;
 }
 
@@ -47,9 +47,14 @@ p {
 
 .sidebar {
   display: flex;
+  position: fixed;
+  top: 40px ;
   flex-direction: column;
   margin: 0;
   margin-top: -7px;
+  height: 100%;
+  overflow-y: hidden;
+  z-index: 5;
 }
 
 .sidebar-button {
@@ -87,7 +92,7 @@ p {
 
 .sidebar-button:active {
   scale: 0.99;
-  background-color: #09060d;
+  background-color: #00000040;
   box-shadow: 0px 0px 20px #00000030;
 }
 
@@ -98,7 +103,8 @@ p {
   left: 180px;
   margin-top: 50px;
   margin-left: -3px;
-  top: 0;
+  position: fixed;
+  top: 0px;
 
 }
 
@@ -114,6 +120,7 @@ hr {
   position: flex;
   flex-direction: column;
   margin: 0;
+  overflow-y: auto;
 }
 
 .content {
@@ -121,8 +128,13 @@ hr {
   display: flex;
   flex-direction: column;
   top: 0;
-  left: 200px;
+  left: 0;
+  padding-left: 200px;
   padding-top: 35px;
+  opacity: 0;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
 }
 
 .section {
@@ -132,8 +144,9 @@ hr {
   display: inline-flex;
   flex-direction: column;
   align-items: left;
-  justify-content: center;
+  /*justify-content: center;*/
   box-shadow: 0px 0px 20px #00000070;
+  width: 300px;
 }
 
 .label {
@@ -141,7 +154,7 @@ hr {
   color: #ffffff70;
 }
 
-.systemsection {
+.zdksection {
   border: 2px solid #ffffff10;
   border-radius: 10px;
   padding: 12px;
@@ -190,4 +203,85 @@ iframe {
   align-items: center;
   gap: 10px;
   height: 40px;
+  z-index: 10;
 }
+
+.windowtextbox {
+  align-items: right;
+  width: 100px;
+}
+
+input {
+  background-color: #00000070;
+  border: 0;
+  border-radius: 5px;
+  padding: 2px;
+  color: white;
+  font-family: 'Inter';
+  outline: 0px solid #00000050;
+  transition-duration: 0.2s;
+}
+
+input:focus {
+  outline: 2px solid #00000050;
+}
+
+/* Hide the default number input arrows */
+input[type=number] {
+  -webkit-appearance: none; /* WebKit/Blink browsers */
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Standard */
+}
+
+button {
+  background-color: #00000070;
+  font-family: 'Inter';
+  color: white;
+  border: 0;
+  padding: 5px;
+  border-radius: 10px;
+  transition-duration: 0.2s
+}
+
+button:hover {
+  background-color: #00000060;
+  box-shadow: 0px 0px 7px #00000020;
+  scale: 1.05;
+}
+
+button:active {
+  background-color: #00000080;
+  scale: 0.97;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    pointer-events: none;
+  }
+  to {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.fadein {
+  animation: fadein 0.2s ease-in-out forwards;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+    pointer-events: all;
+  }
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.fadeout {
+  animation: fadeout 0.2s ease-in-out forwards;
+}
+
+/* i've spent an unreasonable amount of time tryna figure out why the settings menu cant scroll

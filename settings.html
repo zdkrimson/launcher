@@ -3,51 +3,52 @@
 	<head>
 		<title>zdkrimson</title>
 		<link rel="stylesheet" href="settings.css">
+		<script src='settings.js'></script>
 	</head>
 	<body>
 		<div class=titlebar>
-			<button class=close>
+			<button onclick='closeSettings()' class=close>
 				<img width=30 src=assets/icons/arrowback.svg>
 			</button>
 			<p>Settings</p>
 		</div>
 		<div class=sidebar>
-			<button class=sidebar-button>
+			<button onclick='launcher()' class=sidebar-button>
 				<img width=25 src=assets/icons/playbox.svg>
 				<p class=sidebar-buttonText>Launcher</p>
 			</button>
-			<button class=sidebar-button>
+			<button onclick='minecraft()' class=sidebar-button>
 				<img width=25 src=assets/icons/cube.svg>
 				<p class=sidebar-buttonText>Minecraft</p>
 			</button>
-			<button class=sidebar-button>
+			<button onclick='java()' class=sidebar-button>
 				<img width=25 src=assets/icons/java.svg>
 				<p class=sidebar-buttonText>Java</p>
 			</button>
 			<hr class=sidehr>
-			<button class=sidebar-button>
+			<button onclick='accounts()' class=sidebar-button>
 				<img width=25 src=assets/icons/accounts.svg>
 				<p class=sidebar-buttonText>Accounts</p>
 			</button>
-			<button class=sidebar-button>
+			<button onclick='themes()' class=sidebar-button>
 				<img width=25 src=assets/icons/themes.svg>
 				<p class=sidebar-buttonText>Themes</p>
 			</button>
 			<hr>
-			<button class=sidebar-button>
+			<button onclick='about()' class=sidebar-button>
 				<img width=25 src=assets/icons/questionmark.svg>
 				<p class=sidebar-buttonText>About Us</p>
 			</button>
 		</div>
 		<div class=v-line></div>
 		<div class=settings>
-			<div id=system class=content>
+			<div id=launcher class=content>
 				<h1>Launcher</h1>
-				<div class=systemsection>
-					<img width=45 src="../../../assets/logo.svg">
+				<div class=zdksection>
+					<img width=45 src="assets/logo/image/shaded/white.png">
 					<div class=h-layout>
 						<div>zdkrimson</div>
-						<div class=label><i>ver</i></div>
+						<div class=label><i>Beta 1</i></div>
 					</div>
 				</div>
 				<h2>Your Device</h2>
@@ -58,12 +59,110 @@
 					<p>Host: </p>
 					<p>Resolution: </p>
 				</div>
-				<h2>AzuOS Information</h2>
+				<h2>Minecraft Information</h2>
 				<div class=section>
-					<p>System Storage: </p>
-					<p>OS Version: </p>
-					<p>AZML Version: </p>
+					<p>Default Java: </p>
+					<p>Instances Directory: </p>
 				</div>
+			</div>
+			<div id=minecraft class=content>
+				<h1>Minecraft</h1>
+				<h2>Window Size</h2>
+				<div class=section>
+					<div class=rowlayout>
+						<input type="checkbox" id='mcmaximized' name='mcmax' value='maximize'>
+						<label for="mcmaximized"> Start Minecraft maximized?</label><br>
+					</div>
+					<div class=rowlayout>
+						<label for="windowwidth">Window Width:</label>
+						<input class=windowtextbox type="number" id='windowwidth' name='winwidth' value='854'>
+					</div>
+					<div class=rowlayout>
+						<label for="windowheight">Window Height:</label>
+						<input class=windowtextbox type="number" id='windowheight' name='winheight' value='480'>
+					</div>
+				</div>
+				<h2>Miscellaneous</h2>
+				<div class=section>
+					<div class=rowlayout>
+						<input type="checkbox" id='mcdemomode' name='mcdemo' value='demo'>
+						<label for="mcdemomode"> Demo Mode</label><br>
+					</div>
+					<div class=rowlayout>
+						<input type="checkbox" id='mcmulti' name='mcmultiplayer' value='multiplayer'>
+						<label for="mcmulti"> Disable Multiplayer</label><br>
+					</div>
+					<div class=rowlayout>
+						<input type="checkbox" id='mcchat' name='mcgamechat' value='chat'>
+						<label for="mcchat"> Disable In-Game Chat</label><br>
+					</div>
+				</div>
+				<h2>Minecraft Information</h2>
+				<div class=section>
+					<p>Default Java: </p>
+					<p>Instances Directory: </p>
+				</div>
+			</div>
+			<div id=java class=content>
+				<h1>Java</h1>
+				<h2>Memory</h2>
+				<div class=section>
+					<div class=rowlayout>
+						<label>Minimum Memory:</label>
+						<input class=windowtextbox type="number" id='minram' value='512'>
+						<label>MB</label>
+					</div>
+					<div class=rowlayout>
+						<label>Maximum Memory:</label>
+						<input class=windowtextbox type="number" id='maxram' value='1024'>
+						<label>MB</label>
+					</div>
+				</div>
+				<h2>Java Runtime</h2>
+				<div class=section>
+					<div class=rowlayout>
+						<label>Java Path:</label>
+						<input class=windowtextbox type="text" id='javapath'>
+					</div>
+					<div class=rowlayout>
+						<label>JVM Arguments:</label>
+						<input class=windowtextbox type="text" id='jvmargs'>
+					</div>
+				</div>
+			</div>
+			<div id=accounts class=content>
+				<h1>Accounts</h1>
+				<div class=rowlayout>
+					<button>Add Account</button>
+					<button>Edit Account</button>
+					<button>Remove Account</button>
+				</div>
+				<br>
+				<div class=section>
+					<p>i need to figure this out</p>
+				</div>
+			</div>
+			<div id=themes class=content>
+				<h1>Themes</h1>
+				<p>Coming soon... (Probably)</p>
+			</div>
+			<div id=about class=content>
+				<h1>About Us</h1>
+				<p>zdkrimson is a launcher built to make the Minecraft Experience just a little better.</p>
+				<p>Packed with tons of 'Quality of Life' features enhancing your experience with the game.</p>
+				<br>
+				<h3>Links</h3>
+				<div class=section>
+					<p>Github: </p>
+					<p>YouTube: </p>
+				</div>
+				<h3>Developers</h3>
+				<div class=section>
+					<p>Creator: MTSyntho</p>
+					<p>Maintainer: HGT-123</p>
+				</div>
+				<br><br><br><br> <!-- i probably shouldn't spam <br> tags :p -->
+				<p>Made with <3</p>
 			</div>
 	</body>
 </html>
