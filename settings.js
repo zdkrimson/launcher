@@ -1,11 +1,24 @@
+console.log("Platform: " + navigator.platform)
+
+// Adds information on load
+document.addEventListener('DOMContentLoaded', function() {
+	var restext = document.getElementById('sysres');
+	var platformtext = document.getElementById('sysplat');
+	
+	restext.textContent = "Resolution: " + window.screen.width + "x" + window.screen.height;
+	platformtext.textContent = "Platform: " + navigator.platform;
+});
+
+window.addEventListener('message', function(event) {
+	var syshost = document.getElementById('syshost');
+
+	syshost.textContent = "Host: " + event.data;
+});
+
 function closeSettings() {
 	// Send message from iframe to parent window
 	window.parent.postMessage('hideSettings', '*');
 }
-
-// Check if the webpage is not loaded inside an iframe
-
-
 
 //This code snippet sets the background to dark red if ran outside an iframe, this makes writing the settings page easier without it being embedded?
 // Im writing the settings page in it's own tab, not in the iframe cuz i need to refresh the page then open up the settings menu every new change

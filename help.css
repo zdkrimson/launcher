@@ -1,0 +1,41 @@
+body {
+	/*background-color: black*/
+	padding: 20px;
+	padding-top: 40px;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	color: white;
+	font-family: 'Inter';
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Regular.ttf');
+}
+
+.titlebar {
+  background-color: #00000070;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  z-index: 10;
+}
+
+.close {
+  background-color: #00000000;
+  border: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.close:hover {
+  background-color: #00000050;
+  scale: 1.05;
+}

@@ -1,7 +1,29 @@
 body {
+  background-color: #210202;
 	background-image: url("assets/bg/blur/crim1.png");
   background-size: cover;
   background-attachment: fixed;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.windowfade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #210202;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  animation: fadeout 1s ease-in-out forwards;
+  pointer-events: none
 }
 
 @font-face {
@@ -190,6 +212,24 @@ button:active {
   pointer-events: none;
 }
 
+.help {
+  position: fixed;
+  width: 450px;
+  height: 80%;
+  padding: 0px;
+  margin: auto;
+  inset: 0px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(20px) brightness(40%);
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px #00000055;
+  z-index: 7; /* i like the number 7 */
+  opacity: 0;
+  scale: 0.8;
+  pointer-events: none;
+}
+
 @keyframes popup {
   from {
     scale: 0.8;
@@ -224,7 +264,7 @@ button:active {
 	animation: popout 0.5s ease-in forwards;
 }
 
-.settingsiframe {
+.windowiframe {
 	width: 100%;
 	height: 100%;
 	border: 0;
