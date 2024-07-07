@@ -4,15 +4,16 @@ console.log("Platform: " + navigator.platform)
 document.addEventListener('DOMContentLoaded', function() {
 	var restext = document.getElementById('sysres');
 	var platformtext = document.getElementById('sysplat');
+	var syshost = document.getElementById('syshost');
+
+	syshost.textContent = "Host: " + parent.hostmachine;
 	
 	restext.textContent = "Resolution: " + window.screen.width + "x" + window.screen.height;
 	platformtext.textContent = "Platform: " + navigator.platform;
 });
 
-window.addEventListener('message', function(event) {
-	var syshost = document.getElementById('syshost');
-
-	syshost.textContent = "Host: " + event.data;
+window.addEventListener('pywebviewready', function(event) {
+	console.log('ready')
 });
 
 function closeSettings() {

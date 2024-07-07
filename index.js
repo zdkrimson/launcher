@@ -1,7 +1,13 @@
 window.addEventListener('pywebviewready', function() {
-	console.log(window.pywebview.api.get_host())
-	var iframe = document.getElementById('windowiframe');
-	iframe.contentWindow.postMessage(window.pywebview.api.get_host(), '*');
+	var lastuser = document.getElementById('lastuser');
+	pywebview.api.get_username('recent').then(function(result) {
+		// it took me an ungodly amount of time to figure this out, im so pissed rn
+		lastuser.textContent = "Logged in as: " + result;
+	});
+	pywebview.api.get_host().then(function(result) {
+		// it took me an ungodly amount of time to figure this out, im so pissed rn
+		hostmachine = result;
+	});
 });
 
 function settings(status) {
