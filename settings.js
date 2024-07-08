@@ -2,19 +2,31 @@ console.log("Platform: " + navigator.platform)
 
 // Adds information on load
 document.addEventListener('DOMContentLoaded', function() {
+	window.parent.postMessage('awaitConfig', '*');
 	var restext = document.getElementById('sysres');
 	var platformtext = document.getElementById('sysplat');
 	var syshost = document.getElementById('syshost');
-
-	syshost.textContent = "Host: " + parent.hostmachine;
+	var sysmem = document.getElementById("sysmem");
+	var sysgpu = document.getElementById("sysgpu");
+	var syscpu = document.getElementById("syscpu");
+	var launcher = document.getElementById("launcher");
 	
 	restext.textContent = "Resolution: " + window.screen.width + "x" + window.screen.height;
 	platformtext.textContent = "Platform: " + navigator.platform;
+	launcher.classList.add("fadein");
+	setTimeout(function(){
+		syshost.textContent = "Host: " + localStorage.getItem('hostmachine');
+		sysmem.textContent = "Memory: " + localStorage.getItem('sysmem');
+		sysgpu.textContent = "GPU: " + localStorage.getItem('sysgpu');
+		syscpu.textContent = "CPU: " + localStorage.getItem('syscpu');
+	}, 3000);
 });
 
-window.addEventListener('pywebviewready', function(event) {
-	console.log('ready')
-});
+
+// window.addEventListener('message', function(event) {
+// 	console.log(event)
+// 	console.log(event.data)
+// });
 
 function closeSettings() {
 	// Send message from iframe to parent window

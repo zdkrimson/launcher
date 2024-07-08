@@ -1,5 +1,16 @@
 {
-  "lastaccount": "mt.",
+  "lastaccount": "",
   "firsttime": 1,
-  "lastinstance": ""
+  "lastinstance": "",
+  "maximizedefault": false,
+  "winwidth": 854,
+  "winheight": 480,
+  "demomode": false,
+  "multiplayer": true,
+  "gamechat": true,
+  "minmem": 512,
+  "maxmem": 1024,
+  "javapath": "javaw",
+  "jvmargs": "",
+  "customtheme": ""
 }
