@@ -168,6 +168,18 @@ window.addEventListener('message', function(event) {
     if (event.data === 'hideSettings') {
         // Call settings function in the parent window
         settings('hide');
+        pywebview.api.write_settings('maximizedefault', localStorage.getItem('maximizedefault'));
+        pywebview.api.write_settings('demomode', localStorage.getItem('demomode'));
+        pywebview.api.write_settings('multiplayer', localStorage.getItem('multiplayer'));
+        pywebview.api.write_settings('gamechat', localStorage.getItem('gamechat'));
+        pywebview.api.write_settings('customtheme', localStorage.getItem('customtheme')); // remains empty for now
+		pywebview.api.write_settings('javapath', localStorage.getItem('javapath'));
+		pywebview.api.write_settings('jvmargs', localStorage.getItem('jvmargs'));
+		pywebview.api.write_settings('minmem', localStorage.getItem('minmem'));
+		pywebview.api.write_settings('maxmem', localStorage.getItem('maxmem'));
+		pywebview.api.write_settings('winwidth', localStorage.getItem('winwidth'));
+		pywebview.api.write_settings('winheight', localStorage.getItem('winheight'));
+		pywebview.api.save_settings();
     }
 
     if (event.data === 'hideDocs') {

@@ -6,6 +6,14 @@
 		<script src='settings.js'></script>
 	</head>
 	<body>
+		<div id=dialogbg class=dialogbg>
+			<div id=addacc class=addaccount>
+				<p>Add an Account</p>
+				<button class=addaccbtn>Microsoft Login</button>
+				<button class=addaccbtn>Offline Login</button>
+				<button onclick='closeAddAccount()' class=addacccancel>Cancel</button>
+			</div>
+		</div>
 		<div class=titlebar>
 			<button onclick='closeSettings()' class=close>
 				<img width=30 src=assets/icons/arrowback.svg>
@@ -62,8 +70,8 @@
 				</div>
 				<h2>Minecraft Information</h2>
 				<div class=section>
-					<p>Default Java: </p>
-					<p>Instances Directory: </p>
+					<p id=defaultjava>Default Java: Loading...</p>
+					<p>Instances Directory: Loading...</p>
 				</div>
 			</div>
 			<div id=minecraft class=content>
@@ -71,7 +79,7 @@
 				<h2>Window Size</h2>
 				<div class=section>
 					<div class=rowlayout>
-						<input type="checkbox" id='mcmaximized' name='mcmax' value='maximize'>
+						<input type="checkbox" id='mcmaximized' name='mcmax'>
 						<label for="mcmaximized"> Start Minecraft maximized?</label><br>
 					</div>
 					<div class=rowlayout>
@@ -86,22 +94,17 @@
 				<h2>Miscellaneous</h2>
 				<div class=section>
 					<div class=rowlayout>
-						<input type="checkbox" id='mcdemomode' name='mcdemo' value='demo'>
+						<input type="checkbox" id='mcdemomode' name='mcdemo'>
 						<label for="mcdemomode"> Demo Mode</label><br>
 					</div>
 					<div class=rowlayout>
-						<input type="checkbox" id='mcmulti' name='mcmultiplayer' value='multiplayer'>
+						<input type="checkbox" id='mcmulti' name='mcmultiplayer'>
 						<label for="mcmulti"> Disable Multiplayer</label><br>
 					</div>
 					<div class=rowlayout>
-						<input type="checkbox" id='mcchat' name='mcgamechat' value='chat'>
+						<input type="checkbox" id='mcchat' name='mcgamechat'>
 						<label for="mcchat"> Disable In-Game Chat</label><br>
 					</div>
-				</div>
-				<h2>Minecraft Information</h2>
-				<div class=section>
-					<p>Default Java: </p>
-					<p>Instances Directory: </p>
 				</div>
 			</div>
 			<div id=java class=content>
@@ -134,13 +137,13 @@
 			<div id=accounts class=content>
 				<h1>Accounts</h1>
 				<div class=rowlayout>
-					<button>Add Account</button>
+					<button onclick='addaccount()'>Add Account</button>
 					<button>Edit Account</button>
 					<button>Remove Account</button>
 				</div>
 				<br>
 				<div class=section>
-					<p>i need to figure this out</p>
+					<p id=accountload>Loading....</p>
 				</div>
 			</div>
 			<div id=themes class=content>

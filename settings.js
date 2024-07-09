@@ -1,4 +1,4 @@
-console.log("Platform: " + navigator.platform)
+console.log("'settings.js' loaded successfully")
 
 // Adds information on load
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	var sysmem = document.getElementById("sysmem");
 	var sysgpu = document.getElementById("sysgpu");
 	var syscpu = document.getElementById("syscpu");
+	var defjava = document.getElementById("defaultjava");
 	var launcher = document.getElementById("launcher");
 	
+	// lOADING VALUES
 	restext.textContent = "Resolution: " + window.screen.width + "x" + window.screen.height;
 	platformtext.textContent = "Platform: " + navigator.platform;
 	launcher.classList.add("fadein");
@@ -19,9 +21,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		sysmem.textContent = "Memory: " + localStorage.getItem('sysmem');
 		sysgpu.textContent = "GPU: " + localStorage.getItem('sysgpu');
 		syscpu.textContent = "CPU: " + localStorage.getItem('syscpu');
-	}, 3000);
+		document.getElementById('mcmaximized').checked = JSON.parse(localStorage.getItem('maximizedefault'));
+		document.getElementById('mcdemomode').checked = JSON.parse(localStorage.getItem('demomode'));
+		document.getElementById('mcmulti').checked = JSON.parse(localStorage.getItem('multiplayer'));
+		document.getElementById('mcchat').checked = JSON.parse(localStorage.getItem('gamechat'));
+		// document.getElementById('').checked = localStorage.getItem('customtheme'); unimplemented
+		document.getElementById('javapath').value = localStorage.getItem('javapath'); 
+		document.getElementById('jvmargs').value = localStorage.getItem('jvmargs'); 
+		document.getElementById('minram').value = localStorage.getItem('minmem'); 
+		document.getElementById('maxram').value = localStorage.getItem('maxmem'); 
+		document.getElementById('windowwidth').value = localStorage.getItem('winwidth'); 
+		document.getElementById('windowheight').value = localStorage.getItem('winheight'); 
+		defjava.textContent = "Default Java: " + localStorage.getItem('javapath');
+		document.getElementById('accountload').remove();
+	}, 7000);
 });
-
 
 // window.addEventListener('message', function(event) {
 // 	console.log(event)
@@ -29,6 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
 // });
 
 function closeSettings() {
+	// Saving Settings
+	localStorage.setItem('maximizedefault', document.getElementById('mcmaximized').checked);
+	localStorage.setItem('demomode', document.getElementById('mcdemomode').checked);
+	localStorage.setItem('multiplayer', document.getElementById('mcmulti').checked);
+	localStorage.setItem('gamechat', document.getElementById('mcchat').checked);
+	// localStorage.setItem('customtheme', document.getElementById('mcmaximized').checked); (not implemented)
+	localStorage.setItem('javapath', document.getElementById('javapath').value);
+	localStorage.setItem('jvmargs', document.getElementById('jvmargs').value);
+	localStorage.setItem('minmem', document.getElementById('minram').value);
+	localStorage.setItem('maxmem', document.getElementById('maxram').value);
+	localStorage.setItem('winwidth', document.getElementById('windowwidth').value);
+	localStorage.setItem('winheight', document.getElementById('windowheight').value);
+
 	// Send message from iframe to parent window
 	window.parent.postMessage('hideSettings', '*');
 }
@@ -140,4 +167,24 @@ function about() {
 	accounts.classList.remove("fadein");
 	themes.classList.remove("fadein");
 	about.classList.add("fadein");
+}
+
+function addaccount() {
+	var bg = document.getElementById("dialogbg");
+	var dialog = document.getElementById("addacc");
+
+	bg.classList.remove('fadeout');
+	dialog.classList.remove('popout');
+	bg.classList.add('fadein');
+	dialog.classList.add('popup');
+}
+
+function closeAddAccount() {
+	var bg = document.getElementById("dialogbg");
+	var dialog = document.getElementById("addacc");
+
+	bg.classList.add('fadeout');
+	dialog.classList.add('popout');
+	bg.classList.remove('fadein');
+	dialog.classList.remove('popup');
 }
