@@ -204,6 +204,9 @@ class Api:
         print("'settings.json' Saved Successfully")
         return "'settings.json' Saved Successfully"
 
+    # def save_offlineaccount(self, username, uuid):
+    # 	pr
+
         # Big thanks 2 ChatGPT for making the variables work globally throughtout the project, i didnt know how to get it working.
 
 # Instantiate Api class

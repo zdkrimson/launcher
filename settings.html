@@ -9,9 +9,27 @@
 		<div id=dialogbg class=dialogbg>
 			<div id=addacc class=addaccount>
 				<p>Add an Account</p>
-				<button class=addaccbtn>Microsoft Login</button>
-				<button class=addaccbtn>Offline Login</button>
+				<button onclick='mslogin()' class=addaccbtn>Microsoft Login</button>
+				<button onclick='offlinelogin()' class=addaccbtn>Offline Login</button>
 				<button onclick='closeAddAccount()' class=addacccancel>Cancel</button>
+			</div>
+			<div id=addoffline class=addoffline>
+				<p>Create an Offline Account</p>
+				<input type='text' id='offlinename' placeholder='Username'>
+				<input type='text' id='uuid' placeholder='UUID (Optional)'>
+				<div class=v-layout>
+					<button onclick="login('offline')" class=msbtn>Login</button>
+					<button onclick='closeOfflineAccount()' class=msbtn>Cancel</button>
+				</div>
+			</div>
+			<div id=addmicrosoft class=addms>
+				<p>Login to Microsoft</p>
+				<input type='text' id='msemail' placeholder='E-Mail'>
+				<div class=v-layout>
+					<button onclick="login('microsoft')" class=msbtn>Login</button>
+					<button onclick='closeMSAccount()' class=msbtn>Cancel</button>
+				</div>
+				<p class=msnotice><i>Microsoft Login hasn't been implemented yet...</i></p>
 			</div>
 		</div>
 		<div class=titlebar>
@@ -84,11 +102,11 @@
 					</div>
 					<div class=rowlayout>
 						<label for="windowwidth">Window Width:</label>
-						<input class=windowtextbox type="number" id='windowwidth' name='winwidth' value='854'>
+						<input class=windowtextbox type="number" id='windowwidth' name='winwidth' value='854' placeholder='854'>
 					</div>
 					<div class=rowlayout>
 						<label for="windowheight">Window Height:</label>
-						<input class=windowtextbox type="number" id='windowheight' name='winheight' value='480'>
+						<input class=windowtextbox type="number" id='windowheight' name='winheight' value='480' placeholder='480'>
 					</div>
 				</div>
 				<h2>Miscellaneous</h2>
@@ -113,12 +131,12 @@
 				<div class=section>
 					<div class=rowlayout>
 						<label>Minimum Memory:</label>
-						<input class=windowtextbox type="number" id='minram' value='512'>
+						<input class=windowtextbox type="number" id='minram' value='512' placeholder='512 (MB)'>
 						<label>MB</label>
 					</div>
 					<div class=rowlayout>
 						<label>Maximum Memory:</label>
-						<input class=windowtextbox type="number" id='maxram' value='1024'>
+						<input class=windowtextbox type="number" id='maxram' value='1024' placeholder='1024 (MB)'>
 						<label>MB</label>
 					</div>
 				</div>
@@ -126,7 +144,7 @@
 				<div class=section>
 					<div class=rowlayout>
 						<label>Java Path:</label>
-						<input class=windowtextbox type="text" id='javapath'>
+						<input class=windowtextbox type="text" id='javapath' placeholder='javaw'>
 					</div>
 					<div class=rowlayout>
 						<label>JVM Arguments:</label>
@@ -142,8 +160,11 @@
 					<button>Remove Account</button>
 				</div>
 				<br>
-				<div class=section>
+				<div class='section smallgap'>
 					<p id=accountload>Loading....</p>
+					<input type='text' id=loginofflinename placeholder='Username (Offline Mode Only)'>
+					<button>Login</button>
+					<p id=loginstatus>Status: </p>
 				</div>
 			</div>
 			<div id=themes class=content>

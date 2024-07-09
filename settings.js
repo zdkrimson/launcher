@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('windowheight').value = localStorage.getItem('winheight'); 
 		defjava.textContent = "Default Java: " + localStorage.getItem('javapath');
 		document.getElementById('accountload').remove();
-	}, 7000);
+	}, 3000);
 });
 
 // window.addEventListener('message', function(event) {
@@ -187,4 +187,62 @@ function closeAddAccount() {
 	dialog.classList.add('popout');
 	bg.classList.remove('fadein');
 	dialog.classList.remove('popup');
+}
+
+function mslogin() {
+	var bg = document.getElementById("dialogbg");
+	var dialog = document.getElementById("addacc");
+	var msdialog = document.getElementById("addmicrosoft");
+
+	msdialog.classList.add('popup');
+	msdialog.classList.remove('popout');
+	dialog.classList.remove('popup');
+	dialog.classList.add('popout');
+}
+
+function closeMSAccount() {
+	var bg = document.getElementById("dialogbg");
+	var msdialog = document.getElementById("addmicrosoft");
+
+	msdialog.classList.remove('popup');
+	msdialog.classList.add('popout');
+	bg.classList.add('fadeout');
+	bg.classList.remove('fadein');
+}
+
+function offlinelogin() {
+	var bg = document.getElementById("dialogbg");
+	var dialog = document.getElementById("addacc");
+	var offlinedialog = document.getElementById("addoffline");
+
+	offlinedialog.classList.add('popup');
+	offlinedialog.classList.remove('popout');
+	dialog.classList.remove('popup');
+	dialog.classList.add('popout');
+}
+
+function closeOfflineAccount() {
+	var bg = document.getElementById("dialogbg");
+	var offlinedialog = document.getElementById("addoffline");
+
+	offlinedialog.classList.remove('popup');
+	offlinedialog.classList.add('popout');
+	bg.classList.add('fadeout');
+	bg.classList.remove('fadein');
+}
+
+function login(method) {
+	if (method == 'offline') {
+		console.log('Logging In... (Offline Mode)')
+		console.log('Offline Name: ' + document.getElementById('offlinename').value)
+		console.log('Offline UUID: ' + document.getElementById('uuid').value)
+		localStorage.setItem('offlineusername', document.getElementById('offlinename').value);
+		localStorage.setItem('uuid', document.getElementById('uuid').value);
+		// document.createElement('div'); (i'll get this workin soon)
+		window.parent.postMessage('offlinelogin', '*');
+	}
+
+	if (method == 'microsoft') {
+		console.log('Not Implemented (Microsoft Login)')
+	}
 }

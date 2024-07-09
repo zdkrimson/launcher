@@ -165,7 +165,7 @@ window.addEventListener('message', function(event) {
     // if (event.origin !== 'https://your-iframe-domain.com') return;
 
     // Check the message received from iframe
-    if (event.data === 'hideSettings') {
+    if (event.data == 'hideSettings') {
         // Call settings function in the parent window
         settings('hide');
         pywebview.api.write_settings('maximizedefault', localStorage.getItem('maximizedefault'));
@@ -182,8 +182,12 @@ window.addEventListener('message', function(event) {
 		pywebview.api.save_settings();
     }
 
-    if (event.data === 'hideDocs') {
+    if (event.data == 'hideDocs') {
         // Call help function in the parent window
         help('hide');
+    }
+
+    if (event.data == 'offlinelogin') {
+    	// pywebview.api.
     }
 });

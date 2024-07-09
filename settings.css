@@ -364,3 +364,68 @@ button:active {
 .popout {
   animation: popout 0.3s ease-in forwards;
 }
+
+.addoffline {
+  position: fixed;
+  width: 220px;
+  height: 120px;
+  padding: 10px;
+  margin: auto;
+  inset: 0px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(20px);
+  /*background-color: #000000aa;*/
+  background-color: #4d0101;
+  border-radius: 20px;
+  box-shadow: 0px 0px 40px #2b0000;
+  z-index: 14; 
+  gap: 5px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  scale: 0.8;
+  pointer-events: none;
+}
+
+.addms {
+  position: fixed;
+  width: 220px;
+  height: 85px;
+  padding: 10px;
+  margin: auto;
+  inset: 0px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(20px);
+  /*background-color: #000000aa;*/
+  background-color: #4d0101;
+  border-radius: 20px;
+  box-shadow: 0px 0px 40px #2b0000;
+  z-index: 14; 
+  gap: 5px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  scale: 0.8;
+  pointer-events: none;
+}
+
+.msbtn {
+  width: 100px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.msnotice {
+  position: fixed;
+  margin: 0;
+  bottom: -80px;
+  width: 500px;
+}
+
+.smallgap {
+  gap: 5px;
+}
