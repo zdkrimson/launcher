@@ -235,14 +235,15 @@ function login(method) {
 	if (method == 'offline') {
 		console.log('Logging In... (Offline Mode)')
 		console.log('Offline Name: ' + document.getElementById('offlinename').value)
-		console.log('Offline UUID: ' + document.getElementById('uuid').value)
+		console.log('Offline UUID: ' + document.getElementById('offlineuuid').value)
 		localStorage.setItem('offlineusername', document.getElementById('offlinename').value);
-		localStorage.setItem('uuid', document.getElementById('uuid').value);
+		localStorage.setItem('offlineuuid', document.getElementById('offlineuuid').value);
 		// document.createElement('div'); (i'll get this workin soon)
 		window.parent.postMessage('offlinelogin', '*');
+		closeOfflineAccount();
 	}
 
 	if (method == 'microsoft') {
-		console.log('Not Implemented (Microsoft Login)')
+		console.log('Not Implemented (Microsoft Login)');
 	}
 }

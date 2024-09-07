@@ -1,1 +1,22 @@
-{}
+[
+    {
+        "username": "example_user",
+        "uuid": "example_uuid"
+    },
+    {
+        "username": "ads",
+        "uuid": "dasf"
+    },
+    {
+        "username": "fdsa",
+        "uuid": "asfasf"
+    },
+    {
+        "username": "asd",
+        "uuid": "afda"
+    },
+    {
+        "username": "balls",
+        "uuid": "balls"
+    }
+]

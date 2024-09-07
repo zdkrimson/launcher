@@ -187,7 +187,13 @@ window.addEventListener('message', function(event) {
         help('hide');
     }
 
+    // if (event.data == 'offlinelogin') {
+    // 	let offlineacc_data = [ localStorage.getItem('offlineusername') , localStorage.getItem('offlineuuid') ];
+    // 	pywebview.api.offline_account(offlineacc_data);
+    // 	console.log(offlineacc_data);
+    // }
+
     if (event.data == 'offlinelogin') {
-    	// pywebview.api.
+    	pywebview.api.offline_account(localStorage.getItem('offlineusername') , localStorage.getItem('offlineuuid'));
     }
 });

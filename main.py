@@ -204,8 +204,41 @@ class Api:
         print("'settings.json' Saved Successfully")
         return "'settings.json' Saved Successfully"
 
-    # def save_offlineaccount(self, username, uuid):
-    # 	pr
+    # def offline_account(self, zdoffline):
+    #     print('Offline Username: ' + str(zdoffline[0]))
+    #     print('Offline UUID: ' + str(zdoffline[1]))
+    #     print(zdoffline)
+
+    # chatgtp wrote this function cuz i struggled with appending offline_account, bruh
+    def offline_account(self, username, uuid):
+        print('Offline Username: ' + username)
+        print('Offline UUID: ' + uuid)
+        
+        offline_account = {
+            "username": username,
+            "uuid": uuid
+        }
+
+        file_path = '.zdkrimson\\accounts.json'
+        
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as openfile:
+                try:
+                    accountsjson = json.load(openfile)
+                    if not isinstance(accountsjson, list):
+                        raise ValueError("JSON data is not a list")
+                except (json.JSONDecodeError, ValueError) as e:
+                    print(f"Error reading JSON file: {e}")
+                    accountsjson = []
+        else:
+            accountsjson = []
+
+        accountsjson.append(offline_account)
+
+        with open(file_path, 'w') as openfile:
+            json.dump(accountsjson, openfile, indent=4)
+
+        print("New account has been appended to the file.")
 
         # Big thanks 2 ChatGPT for making the variables work globally throughtout the project, i didnt know how to get it working.
 

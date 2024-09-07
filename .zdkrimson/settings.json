@@ -3,14 +3,14 @@
   "firsttime": 1,
   "lastinstance": "",
   "maximizedefault": "false",
-  "winwidth": "789",
-  "winheight": "9098",
+  "winwidth": "854",
+  "winheight": "480",
   "demomode": "false",
-  "multiplayer": "true",
+  "multiplayer": "false",
   "gamechat": "false",
-  "minmem": "2048",
-  "maxmem": "4096",
-  "javapath": "javaw.exe",
-  "jvmargs": "--help",
-  "customtheme": ""
+  "minmem": "512",
+  "maxmem": "1024",
+  "javapath": "",
+  "jvmargs": "",
+  "customtheme": "undefined"
 }
