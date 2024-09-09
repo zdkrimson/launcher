@@ -240,10 +240,48 @@ function login(method) {
 		localStorage.setItem('offlineuuid', document.getElementById('offlineuuid').value);
 		// document.createElement('div'); (i'll get this workin soon)
 		window.parent.postMessage('offlinelogin', '*');
+		displayAccount(document.getElementById('offlinename').value, document.getElementById('offlineuuid').value);
 		closeOfflineAccount();
 	}
 
 	if (method == 'microsoft') {
 		console.log('Not Implemented (Microsoft Login)');
 	}
+}
+
+function selectAccount(name, uuid) {
+	localStorage.setItem('current-username', name);
+	localStorage.setItem('current-uuid', uuid);
+	window.parent.postMessage('accountchange', '*');
+}
+
+function displayAccount(name, uuid, linkUrl) {
+    const accountDiv = document.createElement('div');
+    accountDiv.className = 'account';
+
+    const linkElement = document.createElement('a');
+    linkElement.className = 'account-link';
+
+    const usernameP = document.createElement('p');
+    usernameP.textContent = `Username: ${name}`;
+
+    const uuidP = document.createElement('p');
+    uuidP.className = 'small-text';
+
+    if (!uuid || !uuid.trim()) {
+        uuidP.textContent = 'UUID: Unset';
+    } else {
+        uuidP.textContent = `UUID: ${uuid}`;
+    }
+
+    linkElement.appendChild(usernameP);
+    linkElement.appendChild(uuidP);
+
+    accountDiv.appendChild(linkElement);
+
+    const accountsSection = document.getElementById('account-section');
+
+    accountsSection.appendChild(accountDiv);
+
+	linkElement.addEventListener('click', (event) => { selectAccount(name, uuid); });
 }

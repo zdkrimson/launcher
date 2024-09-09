@@ -196,4 +196,10 @@ window.addEventListener('message', function(event) {
     if (event.data == 'offlinelogin') {
     	pywebview.api.offline_account(localStorage.getItem('offlineusername') , localStorage.getItem('offlineuuid'));
     }
+
+    if (event.data == 'accountchange') {
+    	var lastuser = document.getElementById('lastuser');
+    	lastuser.textContent = "Logged in as: " + localStorage.getItem('current-username');
+    	// i will figure out how to save last account, soon...
+    };
 });

@@ -126,6 +126,12 @@ class Api:
         if uuid == 'recent':
             return lastaccount
 
+    def save_account_change(self, name, uuid):
+        print('Saving Details for Logged In Account.')
+        print('Account Name: ' + name)
+        print('Account UUID: ' + uuid)
+        # my brain hurt
+
     def get_recentinstance(self):
         print("Last Instance:", lastinstance)
         return lastinstance
