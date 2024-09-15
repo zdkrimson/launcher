@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>zdkrimson</title>
+		<link rel="stylesheet" href="instances.css">
+		<script src='instances.js'></script>
+	</head>
+	<body>
+		<div id=dialogbg class=dialogbg>
+			<div id=newinst class=new-inst>
+				<p>Create a New Instance</p>
+				<input disabled type='text' id='offlinename' placeholder='Instance Name (WIP)'>
+				<select id=mcversions>
+				  <!-- <option value="tf is wrong with you">Select a Minecraft Version</option> -->
+				  <option value="haha it broke">Select a Minecraft Version</option>
+
+				</select>
+				<div class=v-layout>
+					<button onclick='addInstance()'>Create</button>
+					<button onclick='closeCreation()'>Cancel</button>
+				</div>
+				<!-- 
+				<button onclick='mslogin()' class=addaccbtn>Microsoft Login</button>
+				<button onclick='offlinelogin()' class=addaccbtn>Offline Login</button>
+				<button onclick='closeAddAccount()' class=addacccancel>Cancel</button> -->
+			</div>
+		</div>
+		<div class=titlebar>
+			<button onclick='closeWindow()' class=close>
+				<img width=30 src=assets/icons/arrowback.svg>
+			</button>
+			<p>Instances</p>
+		</div>
+		<!-- <p>Loading...</p> -->
+		<div class=instances>
+<!-- 			<div class=instance>
+				<img width=50 class=inst-icon src=assets/icons/grass.svg>
+				<hr>
+				<p class=inst-name>Minecraft</p>
+			</div> -->
+<!-- 			<a>
+				<div class=instance>
+					<img width=50 src=assets/icons/grass.svg>
+					<p>Minecraft</p>
+				</div>
+			</a> -->
+		</div>
+		<div class=navbar>
+			<button id=startinst onclick='startInstance()' class=instance-btn disabled >Start Instance</button>
+			<button id=editinst disabled class=instance-btn>Edit Instance</button>
+			<button onclick='newInstance()' class='instance-btn align-right'>New Instance</button>
+		</div>
+	</body>
+</html>

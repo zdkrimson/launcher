@@ -105,7 +105,6 @@ p {
   margin-left: -3px;
   position: fixed;
   top: 0px;
-
 }
 
 hr {
@@ -286,6 +285,7 @@ button:active {
 }
 
 /* i've spent an unreasonable amount of time tryna figure out why the settings menu cant scroll */
+/* for flippin's sakes i still cant figure this shi out */
 
 .dialogbg {
   position: fixed;

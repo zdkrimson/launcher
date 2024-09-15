@@ -1,0 +1,345 @@
+body {
+  /*background-color: darkred;*/
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 40px;
+}
+
+/* Customize scrollbar for WebKit browsers */
+body::-webkit-scrollbar {
+  width: 5px; /* Specify the width of the scrollbar */
+}
+
+/* Customize scrollbar thumb for WebKit browsers */
+body::-webkit-scrollbar-thumb {
+  background-color: #36204d; /* Specify the color of the scrollbar thumb */
+  border-radius: 4px; /* Specify the border radius of the scrollbar thumb */
+}
+
+/* Hide the scrollbar track and button */
+body::-webkit-scrollbar-track {
+  background-color: transparent; /* Set background color of track to transparent */
+  border: none; /* Remove border */
+}
+
+body::-webkit-scrollbar-button {
+  display: none; /* Hide the scrollbar button */
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'InterThin';
+  src: url('assets/fonts/inter/Inter-Thin.ttf');
+}
+
+p, h1, h2, h3, h4, h5, h6, div {
+	font-family: 'Inter';
+	color: white;
+}
+
+p {
+  margin: 0;
+}
+
+iframe {
+  background-color: transparent;
+}
+
+.close {
+  background-color: #00000000;
+  border: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.close:hover {
+  background-color: #00000050;
+  scale: 1.05;
+}
+
+.titlebar {
+  background-color: #00000070;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  z-index: 10;
+}
+
+button {
+  background-color: #00000070;
+  font-family: 'Inter';
+  color: white;
+  border: 0;
+  padding: 5px;
+  border-radius: 10px;
+  transition-duration: 0.2s
+}
+
+button:hover {
+  background-color: #00000060;
+  box-shadow: 0px 0px 7px #00000020;
+  scale: 1.05;
+}
+
+button:active {
+  background-color: #00000080;
+  scale: 0.97;
+}
+
+button:disabled {
+  color: #ffffff50;
+}
+
+.navbar {
+  background-color: #00000070;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  height: 30px;
+  z-index: 10;
+  padding: 7px;
+}
+
+.align-right {
+  position: fixed;
+  right: 6px;
+}
+
+.instance-btn {
+  background-color: #00000070;
+  font-family: 'Inter';
+  color: white;
+  border: 0;
+  padding: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 12px;
+  height: 30px;
+  transition-duration: 0.2s 
+}
+
+.instances {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.instance {
+  border: 2px solid #ffffff20;
+  border-radius: 12px;
+  width: 90px;
+  height: 90px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scale: 1;
+  transition-duration: 0.15s;
+  box-shadow: 0px 0px 20px #000000cc;
+}
+
+.instance:hover {
+  scale: 1.05;
+  box-shadow: 0px 0px 10px #ffffff20;
+}
+
+.instance:active {
+  scale: 0.98;
+}
+
+/*hr {
+  opacity: 1;
+  margin: 0;
+  border: 1px solid #ffffff20;
+  width: 85%;
+}
+
+.inst-icon {
+  margin-top: -5px;
+}
+
+.inst-name {
+  margin-top: 5px;
+}*/
+
+.dialogbg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000050;
+  z-index: 12;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.new-inst {
+  position: fixed;
+  width: 250px;
+  height: 125px;
+  padding: 10px;
+  margin: auto;
+  inset: 0px;
+  display: flex;
+  flex-direction: column;
+  background-color: #4d0101;
+  border-radius: 20px;
+  box-shadow: 0px 0px 40px #2b0000;
+  z-index: 14; 
+  gap: 5px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  scale: 0.8;
+}
+
+.addaccbtn {
+  width: 100%;
+  box-shadow: 0px 0px 20px #00000050;
+}
+
+input {
+  background-color: #00000070;
+  border: 0;
+  border-radius: 5px;
+  padding: 2px;
+  color: white;
+  font-family: 'Inter';
+  outline: 0px solid #00000050;
+  transition-duration: 0.2s;
+  box-shadow: 0px 0px 20px #00000050;
+}
+
+input:focus {
+  outline: 2px solid #00000050;
+}
+
+select {
+  background-color: #00000070;
+  border: 0;
+  border-radius: 5px;
+  padding: 2px;
+  color: white;
+  font-family: 'Inter';
+  outline: 0px solid #00000050;
+  transition-duration: 0.2s;
+  box-shadow: 0px 0px 20px #00000050;
+}
+
+option {
+  background-color: #4d0101;
+  color: white;
+  font-family: 'Inter';
+  transition-duration: 0.2s;
+}
+
+option:hover {
+  font-size: 50px;
+}
+
+/* Style scrollbars of a container element (not the <select> itself) */
+/*.new-inst::-webkit-scrollbar {
+    width: 2px;
+}
+
+.custom-container::-webkit-scrollbar-thumb {
+    background-color: #36204d;
+    border-radius: 4px;
+}
+
+.custom-container::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+}
+*/
+
+.h-layout {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.v-layout {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    pointer-events: none;
+  }
+  to {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.fadein {
+  animation: fadein 0.2s ease-in-out forwards;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+    pointer-events: all;
+  }
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.fadeout {
+  animation: fadeout 0.2s ease-in-out forwards;
+}
+
+@keyframes popup {
+  from {
+    scale: 0.8;
+    opacity: 0;
+    pointer-events: none;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.popup {
+  animation: popup 0.3s ease-out forwards;
+}
+
+@keyframes popout {
+  from {
+    scale: 1;
+    opacity: 1;
+    pointer-events: all;
+  }
+  to {
+    scale: 0.8;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.popout {
+  animation: popout 0.3s ease-in forwards;
+}

@@ -157,6 +157,20 @@ function help(status) {
 	}
 }
 
+function instances(status) {
+	var instmenu = document.getElementById("instances");
+
+	if (status == "show") {
+		instmenu.classList.add("popup");
+		instmenu.classList.remove("popout");
+	}
+	
+	if (status == "hide") {
+		instmenu.classList.remove("popup");
+		instmenu.classList.add("popout");
+	}
+}
+
 // Listen for messages from iframe
 window.addEventListener('message', function(event) {
 	console.log(event)
@@ -187,6 +201,11 @@ window.addEventListener('message', function(event) {
         help('hide');
     }
 
+    if (event.data == 'hideInstances') {
+        // Call instances function in the parent window
+        instances('hide');
+    }
+
     // if (event.data == 'offlinelogin') {
     // 	let offlineacc_data = [ localStorage.getItem('offlineusername') , localStorage.getItem('offlineuuid') ];
     // 	pywebview.api.offline_account(offlineacc_data);
@@ -201,5 +220,9 @@ window.addEventListener('message', function(event) {
     	var lastuser = document.getElementById('lastuser');
     	lastuser.textContent = "Logged in as: " + localStorage.getItem('current-username');
     	// i will figure out how to save last account, soon...
+    };
+
+    if (event.data == 'launchminecraft') {
+    	pywebview.api.launch_minecraft(localStorage.getItem('current-username'), localStorage.getItem('current-uuid'), localStorage.getItem('launchversion'));
     };
 });

@@ -6,7 +6,9 @@ import psutil
 import humanize
 import GPUtil
 import platform
-import portablemc
+# import portablemc
+from portablemc.standard import Context, Version
+from pathlib import Path
 
 # Note 2 Self (2024/07/09 - 3:40AM (it's my birthday wowzers))
 # https://github.com/mindstorm38/portablemc/blob/main/doc/API.md
@@ -25,7 +27,8 @@ print(r"""
 |_  / / _` || |/ /| '__|| || '_ ` _ \ / __| / _ \ | '_ \ 
  / / | (_| ||   < | |   | || | | | | |\__ \| (_) || | | |
 /___| \__,_||_|\_\|_|   |_||_| |_| |_||___/ \___/ |_| |_|
-                                 	Written by MTSyntho & Artsign                  
+                                    Beta 1 -Launch Update-
+                                 	Written by MTSyntho Dev             
                                                          
 		""")
 
@@ -245,6 +248,16 @@ class Api:
             json.dump(accountsjson, openfile, indent=4)
 
         print("New account has been appended to the file.")
+
+    def launch_minecraft(self, username, uuid, version):
+        print(f'\nLaunching Minecraft {version} with username: {username} (uuid: {uuid})\n')
+        print('Also im now realizing portablemc wont output anything, so please wait, it may take a long while to launch')
+        mcver = Version(version)
+        mccontext = Context(Path(".zdkrimson\\resources"), Path(".zdkrimson\\.minecraft"))
+
+        mcver.set_auth_offline(username, uuid)
+        env = mcver.install()
+        env.run()
 
         # Big thanks 2 ChatGPT for making the variables work globally throughtout the project, i didnt know how to get it working.
 

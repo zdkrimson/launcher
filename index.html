@@ -13,6 +13,9 @@
 		<div id=help class=help>
 			<iframe allow-scripts=true allow-same-origin=true allow-transparency=true class=windowiframe src='help.html' title='zdkrimson Help'></iframe>
 		</div>
+		<div id=instances class=instances>
+			<iframe allow-scripts=true allow-same-origin=true allow-transparency=true class=windowiframe src='instances.html' title='zdkrimson Settings'></iframe>
+		</div>
 		<div class=main>
 			<div class=homescrn>
 				<button onclick='help("show")' class=helpbtn>
@@ -28,7 +31,7 @@
 				</div>
 				<div class=homeactions>
 					<button>Play</button>
-					<button>Instances</button>
+					<button onclick='instances("show")'>Instances</button>
 				</div>
 				<p id=instancename class=currentinstance>Current Instance: Loading...</p>
 			</div>
