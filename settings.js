@@ -1,5 +1,36 @@
 console.log("'settings.js' loaded successfully")
 
+function displayAccount(name, uuid) {
+    const accountDiv = document.createElement('div');
+    accountDiv.className = 'account';
+
+    const linkElement = document.createElement('a');
+    linkElement.className = 'account-link';
+
+    const usernameP = document.createElement('p');
+    usernameP.textContent = `Username: ${name}`;
+
+    const uuidP = document.createElement('p');
+    uuidP.className = 'small-text';
+
+    if (!uuid || !uuid.trim()) {
+        uuidP.textContent = 'UUID: Unset';
+    } else {
+        uuidP.textContent = `UUID: ${uuid}`;
+    }
+
+    linkElement.appendChild(usernameP);
+    linkElement.appendChild(uuidP);
+
+    accountDiv.appendChild(linkElement);
+
+    const accountsSection = document.getElementById('account-section');
+
+    accountsSection.appendChild(accountDiv);
+
+	linkElement.addEventListener('click', (event) => { selectAccount(name, uuid); });
+}
+
 // Adds information on load
 document.addEventListener('DOMContentLoaded', function() {
 	window.parent.postMessage('awaitConfig', '*');
@@ -11,6 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
 	var syscpu = document.getElementById("syscpu");
 	var defjava = document.getElementById("defaultjava");
 	var launcher = document.getElementById("launcher");
+
+	function loadAccounts() {
+		var rawaccountdata = localStorage.getItem('accountdata')
+		var accountdata = JSON.parse(rawaccountdata)
+		// console.log(accountdata[1])
+
+		accountdata.forEach(entry => {
+			displayAccount(entry.username, entry.uuid)
+		})
+	}
 	
 	// lOADING VALUES
 	restext.textContent = "Resolution: " + window.screen.width + "x" + window.screen.height;
@@ -34,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('windowheight').value = localStorage.getItem('winheight'); 
 		defjava.textContent = "Default Java: " + localStorage.getItem('javapath');
 		document.getElementById('accountload').remove();
+		loadAccounts();
 	}, 3000);
 });
 
@@ -253,35 +295,4 @@ function selectAccount(name, uuid) {
 	localStorage.setItem('current-username', name);
 	localStorage.setItem('current-uuid', uuid);
 	window.parent.postMessage('accountchange', '*');
-}
-
-function displayAccount(name, uuid, linkUrl) {
-    const accountDiv = document.createElement('div');
-    accountDiv.className = 'account';
-
-    const linkElement = document.createElement('a');
-    linkElement.className = 'account-link';
-
-    const usernameP = document.createElement('p');
-    usernameP.textContent = `Username: ${name}`;
-
-    const uuidP = document.createElement('p');
-    uuidP.className = 'small-text';
-
-    if (!uuid || !uuid.trim()) {
-        uuidP.textContent = 'UUID: Unset';
-    } else {
-        uuidP.textContent = `UUID: ${uuid}`;
-    }
-
-    linkElement.appendChild(usernameP);
-    linkElement.appendChild(uuidP);
-
-    accountDiv.appendChild(linkElement);
-
-    const accountsSection = document.getElementById('account-section');
-
-    accountsSection.appendChild(accountDiv);
-
-	linkElement.addEventListener('click', (event) => { selectAccount(name, uuid); });
 }

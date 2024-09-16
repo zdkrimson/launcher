@@ -2,12 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.addEventListener('pywebviewready', function() {
 		var lastuser = document.getElementById('lastuser');
 		var lastinst = document.getElementById('instancename');
-		pywebview.api.get_username('recent').then(function(result) {
+		pywebview.api.get_last_account().then(function(result) {
 			// it took me an ungodly amount of time to figure this out, im so pissed rn
 			if (result == "") {
 				lastuser.textContent = "Logged in as: Not Logged In!";
+				localStorage.setItem('current-username', '');
 			} else {
 				lastuser.textContent = "Logged in as: " + result;
+				localStorage.setItem('current-username', result);
 			}
 		});
 		pywebview.api.get_recentinstance().then(function(result) {
@@ -34,6 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		pywebview.api.get_cpu().then(function(result) {
 			console.log('CPU: ' + result);
 			localStorage.setItem('syscpu', result);
+		});
+		pywebview.api.get_accounts().then(function(result) {
+			console.log(result);
+			localStorage.setItem('accountdata', JSON.stringify(result));
 		});
     });
 });
@@ -95,20 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				var settingsiframe = document.getElementById('settings');
 				pywebview.api.get_settings().then(function(result) {
 				    console.log(result);
-				    // var customtheme = result.customtheme;
-				    // var demomode = result.demomode;
-				    // var firsttime = result.firsttime;
-				    // var gamechat = result.gamechat;
-				    // var javapath =  result.javapath;
-				    // var jvmargs = result.jvmargs;
-				    // var lastaccount = result.lastaccount;
-				    // var lastinstance = result.lastinstance;
-				    // var maximizedefault = result.maximizedefault;
-				    // var minmem = result.minmem;
-				    // var maxmem = result.maxmem;
-				    // var multiplayer = result.multiplayer;
-				    // var winheight = result.winheight;
-				    // var winwidth = result.winwidth;
 				    localStorage.setItem('customtheme', result.customtheme);
 				    localStorage.setItem('demomode', result.demomode);
 				    localStorage.setItem('firsttime', result.firsttime);
@@ -182,6 +174,8 @@ window.addEventListener('message', function(event) {
     if (event.data == 'hideSettings') {
         // Call settings function in the parent window
         settings('hide');
+        pywebview.api.write_settings('lastaccount', localStorage.getItem('current-username'));
+        pywebview.api.write_settings('lastuuid', localStorage.getItem('current-uuid'));
         pywebview.api.write_settings('maximizedefault', localStorage.getItem('maximizedefault'));
         pywebview.api.write_settings('demomode', localStorage.getItem('demomode'));
         pywebview.api.write_settings('multiplayer', localStorage.getItem('multiplayer'));

@@ -433,7 +433,7 @@ button:active {
 .account {
   border: 2px solid #ffffff10;
   border-radius: 10px;
-  padding: 12px;
+  padding: 0;
   display: inline-flex;
   flex-direction: column;
   align-items: left;
@@ -450,6 +450,10 @@ button:active {
 .account:active {
   scale: 0.98;
   background-color: #00000050;
+}
+
+.account-link {
+  padding: 12px;
 }
 
 .small-text {

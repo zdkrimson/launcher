@@ -10,13 +10,11 @@ import platform
 from portablemc.standard import Context, Version
 from pathlib import Path
 
-# Note 2 Self (2024/07/09 - 3:40AM (it's my birthday wowzers))
 # https://github.com/mindstorm38/portablemc/blob/main/doc/API.md
-# I'm adding accounts
 
 # Global variables declaration
 global lastaccount, firsttime, lastinstance, maximizedefault, winwidth, winheight
-global demomode, multiplayer, gamechat, minmem, maxmem, javapath, jvmargs, customtheme
+global demomode, multiplayer, gamechat, minmem, maxmem, javapath, jvmargs, customtheme, lastuuid
 
 syshost = modelfetch.system.Model
 
@@ -27,7 +25,7 @@ print(r"""
 |_  / / _` || |/ /| '__|| || '_ ` _ \ / __| / _ \ | '_ \ 
  / / | (_| ||   < | |   | || | | | | |\__ \| (_) || | | |
 /___| \__,_||_|\_\|_|   |_||_| |_| |_||___/ \___/ |_| |_|
-                                    Beta 1 -Launch Update-
+                                    Beta 1.1 -Launch Update-
                                  	Written by MTSyntho Dev             
                                                          
 		""")
@@ -36,10 +34,11 @@ print(r"""
 def initialize_settings():
     global lastaccount, firsttime, lastinstance, maximizedefault
     global winwidth, winheight, demomode, multiplayer, gamechat, accounts
-    global minmem, maxmem, javapath, jvmargs, customtheme, configjson
+    global minmem, maxmem, javapath, jvmargs, customtheme, configjson, lastuuid
     
     config = {
         "lastaccount": "",
+        "lastuuid": "",
         "firsttime": 1,
         "lastinstance": "",
         "maximizedefault": False,
@@ -77,6 +76,7 @@ def initialize_settings():
         with open('.zdkrimson\\settings.json', 'r') as openfile:
             configjson = json.load(openfile)
             lastaccount = configjson['lastaccount']
+            lastuuid = configjson['lastuuid']
             firsttime = configjson['firsttime']
             lastinstance = configjson['lastinstance']
             maximizedefault = configjson['maximizedefault']
@@ -102,6 +102,7 @@ def initialize_settings():
             json.dump(config, outfile, indent=2)
         # Initialize global variables after resetting settings
         lastaccount = ""
+        lastuuid = ""
         firsttime = 1
         lastinstance = ""
         maximizedefault = False
@@ -128,6 +129,9 @@ class Api:
         print("Account UUID:", uuid)
         if uuid == 'recent':
             return lastaccount
+
+    def get_last_account(self):
+        return lastaccount
 
     def save_account_change(self, name, uuid):
         print('Saving Details for Logged In Account.')
@@ -163,10 +167,14 @@ class Api:
 
     def write_settings(self, name, data):
         global maximizedefault, winwidth, winheight, demomode, multiplayer, gamechat
-        global minmem, maxmem, javapath, jvmargs, customtheme
+        global minmem, maxmem, javapath, jvmargs, customtheme, lastaccount, lastuuid
         
         if name == 'maximizedefault':
             maximizedefault = data
+        elif name == 'lastaccount':
+            lastaccount = data
+        elif name == 'lastuuid':
+            lastuuid = data
         elif name == 'demomode':
             demomode = data
         elif name == 'multiplayer':
@@ -193,6 +201,7 @@ class Api:
         print('Saving Settings')
         config = {
             "lastaccount": lastaccount,
+            "lastuuid": lastuuid,
             "firsttime": firsttime,
             "lastinstance": lastinstance,
             "maximizedefault": maximizedefault,
@@ -249,6 +258,16 @@ class Api:
 
         print("New account has been appended to the file.")
 
+    def get_accounts(self):
+        file_path = '.zdkrimson\\accounts.json'
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as openfile:
+                return json.load(openfile)
+        else:
+            print('Cant fetch accounts.json')
+
+        # return accounts
+
     def launch_minecraft(self, username, uuid, version):
         print(f'\nLaunching Minecraft {version} with username: {username} (uuid: {uuid})\n')
         print('Also im now realizing portablemc wont output anything, so please wait, it may take a long while to launch')
@@ -266,4 +285,7 @@ api = Api()
 
 # Create and start webview window
 webview.create_window('zdkrimson', background_color="#210202", url="index.html", js_api=api)
-webview.start(debug=True)
+webview.start()
+
+# Disable this line prior to compiling and use the one prior, please...
+# webview.start(debug=True)
