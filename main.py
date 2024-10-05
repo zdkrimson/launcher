@@ -323,15 +323,14 @@ class Api:
         with open(file_path, 'w') as openfile:
             json.dump(instancesjson, openfile, indent=4)
 
-    def launch_minecraft(self, username, uuid, instancename, version):
+    def launch_minecraft(self, username, uuid, instancename, version, modloader):
         print(f'\nLaunching Minecraft {version} in instance {instancename} with username: {username} (uuid: {uuid})\n')
-        print('Also im now realizing portablemc wont output anything, so please wait, it may take a long while to launch')
         mcver = Version(version)
         mccontext = Context(Path(".zdkrimson\\resources"), Path(".zdkrimson\\.minecraft"))
 
         class MyWatcher(Watcher):
             def handle(self, event) -> None:
-                print("install event", event)
+                print("Raw PortableMC Log: ", event)
 
         mcver.set_auth_offline(username, uuid)
         env = mcver.install(watcher=MyWatcher())

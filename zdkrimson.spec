@@ -5,7 +5,7 @@ from PyInstaller.utils.hooks import collect_data_files
 
 # Modify these paths as needed
 source_folder = 'C:/Users/User/Documents/mt/Sublime Text/Projects/zdkrimson'
-static_folder = f'{source_folder}/static'
+# static_folder = f'{source_folder}/static'
 
 # source_folder = ''
 
@@ -15,21 +15,21 @@ a = Analysis(
     binaries=[],
     datas=[
         (f'{source_folder}/favicon.ico', '.'),
-        (f'{static_folder}/help.css', '.'),
-        (f'{static_folder}/help.html', '.'),
-        (f'{static_folder}/help.js', '.'),
-        (f'{static_folder}/index.css', '.'),
-        (f'{static_folder}/index.html', '.'),
-        (f'{static_folder}/index.js', '.'),
-        (f'{static_folder}/instances.css', '.'),
-        (f'{static_folder}/instances.html', '.'),
-        (f'{static_folder}/instances.js', '.'),
+        (f'{source_folder}/help.css', 'static'),
+        (f'{source_folder}/help.html', 'static'),
+        (f'{source_folder}/help.js', 'static'),
+        (f'{source_folder}/index.css', 'static'),
+        (f'{source_folder}/index.html', 'static'),
+        (f'{source_folder}/index.js', 'static'),
+        (f'{source_folder}/instances.css', 'static'),
+        (f'{source_folder}/instances.html', 'static'),
+        (f'{source_folder}/instances.js', 'static'),
         (f'{source_folder}/LICENSE', '.'),
         # (f'{source_folder}/main.py', '.'),
         # (f'{source_folder}/modelfetch.py', '.'),
-        (f'{static_folder}/settings.css', '.'),
-        (f'{static_folder}/settings.html', '.'),
-        (f'{static_folder}/settings.js', '.'),
+        (f'{source_folder}/settings.css', 'static'),
+        (f'{source_folder}/settings.html', 'static'),
+        (f'{source_folder}/settings.js', 'static'),
         (f'{source_folder}/assets', 'assets'),
     ],
     hiddenimports=[],

@@ -12,13 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				localStorage.setItem('current-username', result);
 			}
 		});
-		pywebview.api.get_recentinstance().then(function(result) {
-			if (result == "") {
-				lastinst.textContent = "Current Instance: Not Selected";
-			} else {
-				lastinst.textContent = "Current Instance: " + result;
-			}
-		});
 		pywebview.api.get_host().then(function(result) {
 			// it took me an ungodly amount of time to figure this out, im so pissed rn
 			console.log('Host Machine: ' + result);
@@ -45,6 +38,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(result);
 			localStorage.setItem('instancesdata', JSON.stringify(result));
 		});
+		setTimeout(function() {
+			pywebview.api.get_recentinstance().then(function(result) {
+				if (result == "") {
+					lastinst.textContent = "Current Instance: Not Selected";
+				} else {
+					// thx to chatgtp for assisting with instance version finding
+					localStorage.setItem('launchname', result);
+					var instance = JSON.parse(localStorage.getItem('instancesdata')).find(item => item.name === result);
+					localStorage.setItem('launchversion', instance ? instance.version : null);
+					lastinst.textContent = "Current Instance: " + result;
+				}
+			}, 5000);		
+		})
+
     });
 
     setTimeout(function() {
@@ -109,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			window.addEventListener('pywebviewready', function() {
 				var settingsiframe = document.getElementById('settings');
 				pywebview.api.get_settings().then(function(result) {
-				    console.log(result);
+				    // console.log(result);
 				    localStorage.setItem('customtheme', result.customtheme);
 				    localStorage.setItem('demomode', result.demomode);
 				    localStorage.setItem('firsttime', result.firsttime);
@@ -175,13 +182,15 @@ function instances(status) {
 // work on this next :3
 // im taking a short break
 function quicklaunch() {
+	var lastinst = document.getElementById('instancename');
 	pywebview.api.launch_minecraft(localStorage.getItem('current-username'), localStorage.getItem('current-uuid'), localStorage.getItem('launchname'), localStorage.getItem('launchversion'));
+	lastinst.textContent = `Current Instance: ${localStorage.getItem('launchname')} (Running)`;
 }
 
 // Listen for messages from iframe
 window.addEventListener('message', function(event) {
-	console.log(event)
-	console.log(event.data)
+	// console.log(event)
+	// console.log(event.data)
     // Verify origin of the iframe (optional, for security)
     // if (event.origin !== 'https://your-iframe-domain.com') return;
 
@@ -233,7 +242,7 @@ window.addEventListener('message', function(event) {
 
     if (event.data == 'launchminecraft') {
     	var lastinst = document.getElementById('instancename');
-    	lastinst.textContent = "Current Instance: " + localStorage.getItem('launchname');
+    	lastinst.textContent = `Current Instance: ${localStorage.getItem('launchname')} (Running)`;
     	pywebview.api.save_recentinstance(localStorage.getItem('launchname'))
     	pywebview.api.launch_minecraft(localStorage.getItem('current-username'), localStorage.getItem('current-uuid'), localStorage.getItem('launchname'), localStorage.getItem('launchversion'));
     };
