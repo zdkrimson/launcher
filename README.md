@@ -15,6 +15,9 @@ _(This list is non-exhaustive)_
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Main Menu](github/home-menu.png)
+![Instances](github/instances-menu.png)
+![Minecraft Settings](github/minecraft-settings.png)
+![Accounts](github/accounts.png)
 
 ## This Launcher is still heavily being worked on!
