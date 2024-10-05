@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		defjava.textContent = "Default Java: " + localStorage.getItem('javapath');
 		document.getElementById('accountload').remove();
 		loadAccounts();
-	}, 3000);
+	}, 5000);
 });
 
 // window.addEventListener('message', function(event) {

@@ -7,7 +7,7 @@ import humanize
 import GPUtil
 import platform
 # import portablemc
-from portablemc.standard import Context, Version
+from portablemc.standard import Context, Version, Watcher
 from pathlib import Path
 
 # https://github.com/mindstorm38/portablemc/blob/main/doc/API.md
@@ -40,7 +40,6 @@ def initialize_settings():
         "lastaccount": "",
         "lastuuid": "",
         "firsttime": 1,
-        "lastinstance": "",
         "maximizedefault": False,
         "winwidth": 854,
         "winheight": 480,
@@ -62,14 +61,26 @@ def initialize_settings():
         os.mkdir(".zdkrimson")
 
     if not os.path.exists(".zdkrimson\\settings.json"):
-        print("settings file(settings.json) doesn't exist, created one just now.")
+        print("Settings File may be missing! `settings.json` has been created.")
         with open(".zdkrimson\\settings.json", "w") as outfile:
             json.dump(config, outfile, indent=2)
 
     if not os.path.exists(".zdkrimson\\accounts.json"):
-        print("accounts file(accounts.json) doesn't exist, created one just now.")
+        print("Accounts File may be missing! `accounts.json` has been created.")
         with open(".zdkrimson\\accounts.json", "w") as outfile:
             json.dump(accounts, outfile, indent=2)
+
+    if not os.path.exists(".zdkrimson\\instances.json"):
+        print("Instances File may be missing! `instances.json` has been created.")
+        with open(".zdkrimson\\instances.json", "w") as outfile:
+            json.dump(accounts, outfile, indent=2)
+
+    if not os.path.exists(".zdkrimson\\lastinstance.txt"):
+        print("Last Open Instance File may be missing! `lastinstance.txt` has been created.")
+        with open(".zdkrimson\\lastinstance.txt", 'w') as outfile:
+            outfile.write('')
+
+
     
     # Loading settings from JSON
     try:
@@ -78,7 +89,6 @@ def initialize_settings():
             lastaccount = configjson['lastaccount']
             lastuuid = configjson['lastuuid']
             firsttime = configjson['firsttime']
-            lastinstance = configjson['lastinstance']
             maximizedefault = configjson['maximizedefault']
             winwidth = configjson['winwidth']
             winheight = configjson['winheight']
@@ -104,7 +114,6 @@ def initialize_settings():
         lastaccount = ""
         lastuuid = ""
         firsttime = 1
-        lastinstance = ""
         maximizedefault = False
         winwidth = 854
         winheight = 480
@@ -116,6 +125,14 @@ def initialize_settings():
         javapath = "javaw"
         jvmargs = ""
         customtheme = ""
+
+    
+    with open('.zdkrimson\\lastinstance.txt', 'r') as openfile:
+        global lastinstance
+        lastinstance = openfile.read();
+        print('Last Instance: ' + lastinstance)
+
+
 
 # Initialize or reset settings
 initialize_settings()
@@ -138,10 +155,6 @@ class Api:
         print('Account Name: ' + name)
         print('Account UUID: ' + uuid)
         # my brain hurt
-
-    def get_recentinstance(self):
-        print("Last Instance:", lastinstance)
-        return lastinstance
 
     def get_settings(self):
         return configjson
@@ -203,7 +216,6 @@ class Api:
             "lastaccount": lastaccount,
             "lastuuid": lastuuid,
             "firsttime": firsttime,
-            "lastinstance": lastinstance,
             "maximizedefault": maximizedefault,
             "winwidth": winwidth,
             "winheight": winheight,
@@ -221,6 +233,18 @@ class Api:
             json.dump(config, outfile, indent=2)
         print("'settings.json' Saved Successfully")
         return "'settings.json' Saved Successfully"
+
+    def get_recentinstance(self):
+        print("Last Instance:", lastinstance)
+        return lastinstance
+
+    def save_recentinstance(self, name):
+        global lastinstance
+
+        lastinstance = name
+        with open(".zdkrimson\\lastinstance.txt", 'w') as outfile:
+            outfile.write(lastinstance)
+
 
     # def offline_account(self, zdoffline):
     #     print('Offline Username: ' + str(zdoffline[0]))
@@ -266,16 +290,51 @@ class Api:
         else:
             print('Cant fetch accounts.json')
 
-        # return accounts
+    def get_instances(self):
+        file_path = '.zdkrimson\\instances.json'
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as openfile:
+                return json.load(openfile)
+        else:
+            print('Cant fetch instances.json')
 
-    def launch_minecraft(self, username, uuid, version):
-        print(f'\nLaunching Minecraft {version} with username: {username} (uuid: {uuid})\n')
+    def add_instance(self, name, version, icon):
+        new_inst = {
+            "name": name,
+            "version": version,
+            "icon": icon
+        }
+        file_path = '.zdkrimson\\instances.json'
+        
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as openfile:
+                try:
+                    instancesjson = json.load(openfile)
+                    if not isinstance(instancesjson, list):
+                        raise ValueError("JSON data is not a list")
+                except (json.JSONDecodeError, ValueError) as e:
+                    print(f"Error reading JSON file: {e}")
+                    instancesjson = []
+        else:
+            instancesjson = []
+
+        instancesjson.append(new_inst)
+
+        with open(file_path, 'w') as openfile:
+            json.dump(instancesjson, openfile, indent=4)
+
+    def launch_minecraft(self, username, uuid, instancename, version):
+        print(f'\nLaunching Minecraft {version} in instance {instancename} with username: {username} (uuid: {uuid})\n')
         print('Also im now realizing portablemc wont output anything, so please wait, it may take a long while to launch')
         mcver = Version(version)
         mccontext = Context(Path(".zdkrimson\\resources"), Path(".zdkrimson\\.minecraft"))
 
+        class MyWatcher(Watcher):
+            def handle(self, event) -> None:
+                print("install event", event)
+
         mcver.set_auth_offline(username, uuid)
-        env = mcver.install()
+        env = mcver.install(watcher=MyWatcher())
         env.run()
 
         # Big thanks 2 ChatGPT for making the variables work globally throughtout the project, i didnt know how to get it working.
@@ -285,7 +344,7 @@ api = Api()
 
 # Create and start webview window
 webview.create_window('zdkrimson', background_color="#210202", url="index.html", js_api=api)
-webview.start()
+# webview.start()
 
 # Disable this line prior to compiling and use the one prior, please...
-# webview.start(debug=True)
+webview.start(debug=True)

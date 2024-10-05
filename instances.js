@@ -1,5 +1,47 @@
 console.log("'instances.js' loaded successfully")
 
+function loadInstance(name, version, icon) {
+	const a = document.createElement('a');
+	const div = document.createElement('div');
+	div.className = 'instance';
+
+	// Attach version as a data attribute
+    a.setAttribute('instance-version', version);
+
+    a.onclick = function() {
+    	selectInstance(name, version);
+    }
+
+	const img = document.createElement('img');
+	img.width = 50;
+	if (icon === 'default') {
+		img.src = 'assets/icons/grass.svg';
+	}
+
+	const p = document.createElement('p');
+	p.textContent = name;
+
+	div.appendChild(img);
+	div.appendChild(p);
+	a.appendChild(div);
+
+	const instances = document.querySelector('.instances');
+	instances.appendChild(a);
+}
+
+// Adds information on load
+document.addEventListener('DOMContentLoaded', function() {
+	// lOADING VALUES
+	setTimeout(function(){
+		var rawinstancedata = localStorage.getItem('instancesdata')
+		var instancesdata = JSON.parse(rawinstancedata);
+
+		instancesdata.forEach(entry => {
+			loadInstance(entry.name, entry.version, entry.icon)
+		});
+	}, 5000);
+});
+
 // function addInstance(name) {
 // 	const a = document.createElement('a');
 // 	const div = document.createElement('div');
@@ -31,14 +73,15 @@ function closeCreation() {
 }
 
 function startInstance() {
-	localStorage.setItem('launchversion', window.__selectedVer);
+	localStorage.setItem('launchname', window.__selectedName);
+	localStorage.setItem('launchversion', window.__selectedVersion);
 	window.parent.postMessage('launchminecraft', '*');
-	alert(`Check Python Console for Updates as Minecraft ${window.__selectedVer} currently opening...`)
 }
 
-function selectInstance(version) {
+function selectInstance(name, version) {
 	var start = document.getElementById("startinst");
-	window.__selectedVer = version;
+	window.__selectedName = name
+	window.__selectedVersion = version;
 	// var edit = document.getElementById("editinst");
 
 	start.disabled = false;
@@ -50,8 +93,11 @@ function addInstance() {
 	const div = document.createElement('div');
 	div.className = 'instance';
 
+	// Attach version as a data attribute
+    a.setAttribute('instance-version', document.getElementById('mcversions').value);
+
     a.onclick = function() {
-    	selectInstance(document.getElementById('mcversions').value);
+    	selectInstance(document.getElementById('offlinename').value, document.getElementById('mcversions').value);
     }
 
 	const img = document.createElement('img');
@@ -59,7 +105,7 @@ function addInstance() {
 	img.src = 'assets/icons/grass.svg';
 
 	const p = document.createElement('p');
-	p.textContent = document.getElementById('mcversions').value;
+	p.textContent = document.getElementById('offlinename').value;
 
 	div.appendChild(img);
 	div.appendChild(p);
@@ -67,6 +113,12 @@ function addInstance() {
 
 	const instances = document.querySelector('.instances');
 	instances.appendChild(a);
+
+	localStorage.setItem('instance-name', document.getElementById('offlinename').value);
+	localStorage.setItem('instance-version', document.getElementById('mcversions').value);
+	localStorage.setItem('instance-icon', 'default');
+
+	window.parent.postMessage('newinstance', '*');
 
 	closeCreation();
 };

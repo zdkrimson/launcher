@@ -41,7 +41,16 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(result);
 			localStorage.setItem('accountdata', JSON.stringify(result));
 		});
+		pywebview.api.get_instances().then(function(result) {
+			console.log(result);
+			localStorage.setItem('instancesdata', JSON.stringify(result));
+		});
     });
+
+    setTimeout(function() {
+    	var loading = document.getElementById('loading-screen');
+    	loading.classList.add('fadeout');
+    }, 5000);
 });
 
 // window.addEventListener('message', function(event) {
@@ -163,6 +172,12 @@ function instances(status) {
 	}
 }
 
+// work on this next :3
+// im taking a short break
+function quicklaunch() {
+	pywebview.api.launch_minecraft(localStorage.getItem('current-username'), localStorage.getItem('current-uuid'), localStorage.getItem('launchname'), localStorage.getItem('launchversion'));
+}
+
 // Listen for messages from iframe
 window.addEventListener('message', function(event) {
 	console.log(event)
@@ -217,6 +232,13 @@ window.addEventListener('message', function(event) {
     };
 
     if (event.data == 'launchminecraft') {
-    	pywebview.api.launch_minecraft(localStorage.getItem('current-username'), localStorage.getItem('current-uuid'), localStorage.getItem('launchversion'));
+    	var lastinst = document.getElementById('instancename');
+    	lastinst.textContent = "Current Instance: " + localStorage.getItem('launchname');
+    	pywebview.api.save_recentinstance(localStorage.getItem('launchname'))
+    	pywebview.api.launch_minecraft(localStorage.getItem('current-username'), localStorage.getItem('current-uuid'), localStorage.getItem('launchname'), localStorage.getItem('launchversion'));
+    };
+
+    if (event.data == 'newinstance') {
+    	pywebview.api.add_instance(localStorage.getItem('instance-name'), localStorage.getItem('instance-version'), localStorage.getItem('instance-icon'));
     };
 });
