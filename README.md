@@ -1,6 +1,8 @@
-# zdkrimson
-
-An aesthetically-pleasing Minecraft Launcher designed to elevate your experience exponetially 🌸
+<p align="center">
+  <img alt="zdkrimson Logo" src="assets/logo/image/white.svg" width="100">
+</p>
+<h1 align="center">zdkrimson</h1>
+<p align="center">An aesthetically-pleasing Minecraft Launcher designed to elevate your experience exponetially 🌸</p>
 
 ## Features 
 - Cracked/Offline Mode
@@ -15,9 +17,9 @@ _(This list is non-exhaustive)_
 
 ## Screenshots
 
-![Main Menu](github/home-menu.png)
-![Instances](github/instances-menu.png)
-![Minecraft Settings](github/minecraft-settings.png)
-![Accounts](github/accounts.png)
+<img alt="Main Menu" src="github/home-menu.png" width="500">
+<img alt="Instances" src="github/instances-menu.png" width="500">
+<img alt="Minecraft Settings" src="github/minecraft-settings.png" width="500">
+<img alt="Accounts" src="github/accounts.png" width="500">
 
 ## This Launcher is still heavily being worked on!
