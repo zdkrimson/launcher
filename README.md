@@ -1,8 +1,7 @@
-<p align="center">
-  <img alt="zdkrimson Logo" src="assets/logo/image/white.svg" width="100">
-</p>
+<p align="center"><img alt="zdkrimson Logo" src="assets/logo/image/white.svg" width="100"></p>
 <h1 align="center">zdkrimson</h1>
 <p align="center">An aesthetically-pleasing Minecraft Launcher designed to elevate your experience exponetially 🌸</p>
+<p align="center"><img src="https://img.shields.io/badge/Made_with-Python-blue?logo=python&logoColor=ffd343" alt="Made in Python" /></p>
 
 ## Features 
 - Cracked/Offline Mode
